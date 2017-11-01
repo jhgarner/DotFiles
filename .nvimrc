@@ -88,6 +88,7 @@ nnoremap k gk
 set pastetoggle=<F2>
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
+set scrolloff=5
 
 "Carefully crafted rainbow configuration
 
