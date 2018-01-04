@@ -12,6 +12,7 @@ Plug 'racer-rust/vim-racer', {'for' : 'rust'}
 Plug 'roxma/nvim-cm-racer', {'for' : 'rust'}
 Plug 'xuhdev/vim-latex-live-preview'
 Plug 'dansomething/vim-eclim'
+Plug 'https://github.com/mxw/vim-jsx'
 
 "Ui changes
 
