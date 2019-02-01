@@ -1,0 +1,1 @@
+λ(command : Text) → "exec --no-startup-id " ++ command
