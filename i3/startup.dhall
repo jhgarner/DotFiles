@@ -7,6 +7,8 @@ let restart =
 
 let mkExec = ./exec.dhall
 
+let mkAlways = λ(command : Text) → "exec_always --no-startup-id " ++ command
+
 let execAlways =
 	  [ "./.fehbg"
 	  , restart "compton" ""
@@ -24,7 +26,7 @@ let exec =
 	  ]
 
 in  { execAlways =
-		map Text Text mkExec execAlways
+		map Text Text mkAlways execAlways
 	, exec =
 		map Text Text mkExec exec
 	}

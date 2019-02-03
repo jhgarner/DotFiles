@@ -1,5 +1,8 @@
--- TODO How do I share the Direction instance?
 let mkExec = ./exec.dhall
+
+let t = ./types.dhall
+
+let ws = ./workspaces.dhall
 
 let directions =
 	  [ { d = "h", a = "left" }
@@ -13,8 +16,6 @@ let directions =
 	  ]
 
 let b = ./bindFunc.dhall "mod4" directions
-
-let Direction = { d : Text, a : Text }
 
 let metaBinds =
 	  [ b.sBind "q" "kill"
@@ -65,8 +66,14 @@ let appBinds =
 in  { moves =
 		b.mkDirection b.bind "focus" # b.mkDirection b.sBind "move"
 	, workspaces =
-		  b.mkWorkSpace b.bind "workspace"
-		# b.mkWorkSpace b.sBind "move container to workspace"
+		  ws.mkWorkSpace
+		  b.bind
+		  "workspace"
+		  (ws.simpleWorkspaces # [ { k = "F4", w = "&#xf001" } ])
+		# ws.mkWorkSpace
+		  b.sBind
+		  "move container to workspace"
+		  ws.simpleWorkspaces
 	, metaBinds =
 		metaBinds
 	, layoutBinds =
@@ -80,7 +87,7 @@ in  { moves =
 	, resize =
 		  b.mkDirectionGeneric
 		  b.bind
-		  (λ(_ : Direction) → "width 10 px or 10 ppt")
+		  (λ(_ : t.Direction) → "width 10 px or 10 ppt")
 		# [ b.bindNoMod "Return" "mode \"default\""
 		  , b.bindNoMod "Escape" "mode \"default\""
 		  ]

@@ -1,0 +1,1 @@
+{ Direction = { d : Text, a : Text }, Workspace = { k : Text, w : Text } }

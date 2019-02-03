@@ -26,7 +26,12 @@ mkWorkspaces
 	Creates keybindings for all of your workspaces with some prefix
 	before the workspace name. The first parameter is a bind function.
 -}
-let Direction = { d : Text, a : Text }
+
+let t = ./types.dhall
+
+let Direction = t.Direction
+
+let Workspace = t.Workspace
 
 in    λ(mod : Text)
 	→ λ(directions : List Direction)
@@ -63,17 +68,6 @@ in    λ(mod : Text)
 			→ λ(command : Text)
 			→ bindAny { h = mod, t = [ key, "Shift" ] } (mkExec command)
 
-	  let mkWorkSpace =
-			  λ(bi : Text → Text → Text)
-			→ λ(prefix : Text)
-			→   [ bi "0" "${prefix} 10" ]
-			  # List/fold
-				Text
-				[ "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
-				(List Text)
-				(λ(a : Text) → λ(b : List Text) → b # [ bi a "${prefix} ${a}" ])
-				([] : List Text)
-
 	  let mkDirectionGeneric =
 			  λ(bi : Text → Text → Text)
 			→ λ(command : Direction → Text)
@@ -105,6 +99,4 @@ in    λ(mod : Text)
 			  mkDirectionGeneric
 		  , mkDirection =
 			  mkDirection
-		  , mkWorkSpace =
-			  mkWorkSpace
 		  }
