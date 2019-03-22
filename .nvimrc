@@ -50,6 +50,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
     \ 'haskell': ['hie-wrapper', '--lsp', '-d', '-l', 'hie.log'],
     \ 'cpp': ['clangd'],
+    \ 'tex': ['java', '-jar', '/opt/texlab.jar'],
     \ }
 
 let g:LanguageClient_hoverPreview = "Never"
@@ -92,6 +93,7 @@ autocmd FileType * RainbowParentheses
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 let g:rainbow#blacklist = ['#ECEFF4', '#D8DEE9']
+let g:livepreview_previewer = 'zathura'
 
 "General ui stuff
 set termguicolors
@@ -134,3 +136,12 @@ nnoremap <Leader>c :Commands<CR>
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+" FILETYPE SPECIFIC CONFIGURATIONS ===========================================
+" Automatically break lines at 80 characters on TeX/LaTeX, Markdown, and text
+" files
+" Enable spell check on TeX/LaTeX, Markdown, and text files
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal tw=80
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none

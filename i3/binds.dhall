@@ -60,7 +60,7 @@ let appBinds =
 	  , b.eSBind "d" "rofi -show run"
 	  , b.eBind "equal" "dmenu -nf #93A1A1 -nb #02395A -sb #55AA06 -sf #fdf6e3"
 	  , b.eBind "c" "scrot -s '%Y-%m-%d-%T.png' -e 'mv \$f /tmp'"
-	  , b.bind "t" "[instance=\"metask\"] scratchpad show"
+	  , b.eBind "t" "tdrop -x 25% -w 50% -h 30% -a termite"
 	  ]
 
 in  { moves =
@@ -69,7 +69,7 @@ in  { moves =
 		  ws.mkWorkSpace
 		  b.bind
 		  "workspace"
-		  (ws.simpleWorkspaces # [ { k = "F4", w = "&#xf001" } ])
+		  (ws.simpleWorkspaces # [ { k = "F4", w = "&#xf001;" } ])
 		# ws.mkWorkSpace
 		  b.sBind
 		  "move container to workspace"
@@ -88,7 +88,7 @@ in  { moves =
 		  b.mkDirectionGeneric
 		  b.bind
 		  (λ(_ : t.Direction) → "width 10 px or 10 ppt")
-		# [ b.bindNoMod "Return" "mode \"default\""
-		  , b.bindNoMod "Escape" "mode \"default\""
+		# [ b.bind "Return" "mode \"default\""
+		  , b.bind "Escape" "mode \"default\""
 		  ]
 	}

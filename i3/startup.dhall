@@ -19,7 +19,6 @@ let execAlways =
 let exec =
 	  [ "nm-applet"
 	  , "blueman-applet"
-	  , "teamite --name metask"
 	  , "xrandr --output DP-0 --primary --mode 1920x1080 --rate 143.85"
 	  , "pulseaudio -k"
 	  , "setxkbmap 3l"
