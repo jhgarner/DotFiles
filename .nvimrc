@@ -50,7 +50,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
     \ 'haskell': ['hie-wrapper', '--lsp', '-d', '-l', 'hie.log'],
     \ 'cpp': ['clangd'],
-    \ 'tex': ['java', '-jar', '/opt/texlab.jar'],
+    \ 'tex': ['java', '-jar', '/home/jack/.local/bin/texlab.jar'],
     \ }
 
 let g:LanguageClient_hoverPreview = "Never"

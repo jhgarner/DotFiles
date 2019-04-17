@@ -37,31 +37,54 @@ scrollback_lines = 10000
 
 # "off", "left" or "right"
 #scrollbar = off
-
 [colors]
-cursor = #d8dee9
-cursor_foreground = #2e3440
+# Base16 Material Palenight
+# Author: Nate Peterson
 
-foreground = #d8dee9
-foreground_bold = #d8dee9
-background = #2e3440
+foreground          = #bfc7d5
+foreground_bold     = #bf7cd5
+cursor              = #959DCB
+cursor_foreground   = #292D3E
+background          = rgba(41, 45, 62)
 
-highlight = #4c566a
+# 16 color space
 
-color0  = #3b4252
-color1  = #bf616a
-color2  = #a3be8c
-color3  = #ebcb8b
-color4  = #81a1c1
-color5  = #b48ead
-color6  = #88c0d0
-color7  = #e5e9f0
-color8  = #4c566a
-color9  = #bf616a
-color10 = #a3be8c
-color11 = #ebcb8b
-color12 = #81a1c1
-color13 = #b48ead
-color14 = #8fbcbb
-color15 = #eceff4
+# Black, Gray, Silver, White
+color0  = #292D3E
+color8  = #676E95
+color7  = #959DCB
+color15 = #FFFFFF
+
+# Red
+color1  = #F07178
+color9  = #F07178
+
+# Green
+color2  = #C3E88D
+color10 = #C3E88D
+
+# Yellow
+color3  = #FFCB6B
+color11 = #FFCB6B
+
+# Blue
+color4  = #82AAFF
+color12 = #82AAFF
+
+# Purple
+color5  = #C792EA
+color13 = #C792EA
+
+# Teal
+color6  = #89DDFF
+color14 = #89DDFF
+
+# Extra colors
+color16 = #F78C6C
+color17 = #FF5370
+color18 = #444267
+color19 = #32374D
+color20 = #8796B0
+color21 = #959DCB
+
 [hints]

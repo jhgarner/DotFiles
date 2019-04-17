@@ -59,7 +59,7 @@ let appBinds =
 	  , b.eBind "d" "rofi -show drun"
 	  , b.eSBind "d" "rofi -show run"
 	  , b.eBind "equal" "dmenu -nf #93A1A1 -nb #02395A -sb #55AA06 -sf #fdf6e3"
-	  , b.eBind "c" "scrot -s '%Y-%m-%d-%T.png' -e 'mv \$f /tmp'"
+	  , b.eBind "c" "maim -s /tmp/$(date +%s).png"
 	  , b.eBind "t" "tdrop -x 25% -w 50% -h 30% -a termite"
 	  ]
 
