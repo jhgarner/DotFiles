@@ -5,7 +5,7 @@
 
   let other = ./other.dhall
 
-  let bar = ./bar.dhall (if isLaptop then "#02395AAA" else "#409C90AA")
+  let bar = ./bar.dhall (if isLaptop then "#02395AAA" else "#183938AA")
 
   let id = λ(t : Type) → λ(a : t) → a
 

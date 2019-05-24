@@ -14,6 +14,7 @@ let fWindow =
 let windowGuides =
 	  [ fWindow "Triangle Example" "floating enable"
 	  , fWindow "Spotify" "move container to workspace \"&#xf001;\""
+	  , fWindow "Riot" "move container to workspace \"&#xf0e6;\""
 	  ]
 
 in  { font =

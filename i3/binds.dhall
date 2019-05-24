@@ -69,7 +69,7 @@ in  { moves =
 		  ws.mkWorkSpace
 		  b.bind
 		  "workspace"
-		  (ws.simpleWorkspaces # [ { k = "F4", w = "&#xf001;" } ])
+		  (ws.simpleWorkspaces # [ { k = "F4", w = "&#xf001;" } ] # [{ k = "F2", w = "&#xf0e6;" }])
 		# ws.mkWorkSpace
 		  b.sBind
 		  "move container to workspace"

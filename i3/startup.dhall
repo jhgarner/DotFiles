@@ -20,8 +20,9 @@ let exec =
 	  [ "nm-applet"
 	  , "blueman-applet"
 	  , "xrandr --output DP-0 --primary --mode 1920x1080 --rate 143.85"
-	  , "pulseaudio -k"
 	  , "setxkbmap 3l"
+	  , "pulseaudio -k"
+	  , "syncthing-gtk"
 	  ]
 
 in  { execAlways =
