@@ -55,17 +55,18 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-nmap <silent> <Leader>ep <Plug>(coc-diagnostic-prev)
-nmap <silent> <Leader>en <Plug>(coc-diagnostic-next)
+" Error searching
+nmap <silent> <Leader>lep <Plug>(coc-diagnostic-prev)
+nmap <silent> <Leader>len <Plug>(coc-diagnostic-next)
 
-nmap <silent> <Leader>jd <Plug>(coc-definition)
-nmap <silent> <Leader>jt <Plug>(coc-type-definition)
-nmap <silent> <Leader>ji <Plug>(coc-implementation)
-nmap <silent> <Leader>jr <Plug>(coc-references)
+nmap <silent> <Leader>ljd <Plug>(coc-definition)
+nmap <silent> <Leader>ljt <Plug>(coc-type-definition)
+nmap <silent> <Leader>lji <Plug>(coc-implementation)
+nmap <silent> <Leader>ljr <Plug>(coc-references)
 
-nmap <Leader>da <Plug>(coc-codeaction)
+nmap <Leader>la <Plug>(coc-codeaction)
 
-nnoremap <silent> <Leader>df :call CocAction('format')<CR>
+nnoremap <silent> <Leader>lf :call CocAction('format')<CR>
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -74,16 +75,16 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-nnoremap <silent> <Leader>jh :call <SID>show_documentation()<CR>
+nnoremap <silent> <Leader>ljh :call <SID>show_documentation()<CR>
 
-nmap <Leader>r <Plug>(coc-rename)
+nmap <Leader>lr <Plug>(coc-rename)
 
-nnoremap <silent> <Leader>ee  :<C-u>CocList diagnostics<cr>
-nnoremap <silent> <Leader>fd  :<C-u>CocList outline<cr>
-nnoremap <silent> <Leader>fw  :<C-u>CocList -I symbols<cr>
-nnoremap <silent> <Leader>ean  :<C-u>CocNext<CR>
-nnoremap <silent> <Leader>epn  :<C-u>CocPrev<CR>
-nnoremap <silent> <Leader>or  :<C-u>CocListResume<CR>
+nnoremap <silent> <Leader>lee  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <Leader>ljo  :<C-u>CocList outline<cr>
+nnoremap <silent> <Leader>ljs  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <Leader>lean  :<C-u>CocNext<CR>
+nnoremap <silent> <Leader>leap  :<C-u>CocPrev<CR>
+nnoremap <silent> <Leader>ll  :<C-u>CocListResume<CR>
 
 "Autocomplete
 set completeopt=noinsert,menuone,noselect
@@ -165,6 +166,8 @@ nnoremap <Leader>oc :Commands<CR>
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+let g:livepreview_engine = 'pdflatex' . ' -shell-escape'
 
 " FILETYPE SPECIFIC CONFIGURATIONS ===========================================
 " Automatically break lines at 80 characters on TeX/LaTeX, Markdown, and text
