@@ -38,6 +38,8 @@ autoload -Uz promptinit
 promptinit
 source /home/jack/.async.zsh
 source /home/jack/.pure.zsh
+source /home/jack/c.sh
+source /home/jack/mk.sh
 # prompt pure
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -45,7 +47,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 zstyle ':completion:*:descriptions' format '%U%B%d%b%u' 
 
-export VISUAL=kak
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 export OFFICE=libreoffice
 export PDFVIEWER="zathura --fork"
