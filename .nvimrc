@@ -1,19 +1,9 @@
 call plug#begin('~/.vim/plugged')
 " Generic language plugins,
-" Plug 'w0rp/ale' " For linting
 Plug 'sheerun/vim-polyglot' " For random language support
-" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'roxma/nvim-yarp' " For ncm
-" Plug 'ncm2/ncm2' " For Autocomplete
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'calviken/vim-gdscript3'
+Plug 'calviken/vim-gdscript3' " Sometimes I open Godot files
 
 " Autocomplete extensions
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'derekwyatt/vim-scala'
 
@@ -24,23 +14,21 @@ Plug 'junegunn/fzf.vim'
 
 
 "Ui changes
-" Plug 'airblade/vim-gitgutter'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'tpope/vim-sleuth'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'airblade/vim-gitgutter' " Show git info
+Plug 'junegunn/rainbow_parentheses.vim' " Make parentheses cooler
+Plug 'tpope/vim-sleuth' " Pick the right tab/spacing automatically
+Plug 'drewtempelmeyer/palenight.vim' " My color scheme
+Plug 'itchyny/lightline.vim' " The status bar
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " I like spacemacs
 
 "Movement plugins
-Plug 'easymotion/vim-easymotion'
-" Plug 'vim-scripts/a.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion' " Replace ALL the keybindings
+Plug 'tpope/vim-commentary' " gcc to comment a line
+Plug 'tpope/vim-surround' " Some surround commands I should use more often
 
 call plug#end()
 
+" I like spacemacs
 let mapleader=" "
 nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
 
@@ -56,17 +44,17 @@ inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Error searching
-nmap <silent> <Leader>lep <Plug>(coc-diagnostic-prev)
-nmap <silent> <Leader>len <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>pe <Plug>(coc-diagnostic-prev)
+nmap <silent> <Leader>ne <Plug>(coc-diagnostic-next)
 
-nmap <silent> <Leader>ljd <Plug>(coc-definition)
-nmap <silent> <Leader>ljt <Plug>(coc-type-definition)
-nmap <silent> <Leader>lji <Plug>(coc-implementation)
-nmap <silent> <Leader>ljr <Plug>(coc-references)
+nmap <silent> <Leader>gd <Plug>(coc-definition)
+nmap <silent> <Leader>gt <Plug>(coc-type-definition)
+nmap <silent> <Leader>gi <Plug>(coc-implementation)
+nmap <silent> <Leader>gr <Plug>(coc-references)
 
-nmap <Leader>la <Plug>(coc-codeaction)
+nmap <Leader>a <Plug>(coc-codeaction)
 
-nnoremap <silent> <Leader>lf :call CocAction('format')<CR>
+nnoremap <silent> <Leader>f :call CocAction('format')<CR>
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -75,30 +63,21 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-nnoremap <silent> <Leader>ljh :call <SID>show_documentation()<CR>
+nnoremap <silent> <Leader>gh :call <SID>show_documentation()<CR>
 
 nmap <Leader>lr <Plug>(coc-rename)
 
-nnoremap <silent> <Leader>lee  :<C-u>CocList diagnostics<cr>
-nnoremap <silent> <Leader>ljo  :<C-u>CocList outline<cr>
-nnoremap <silent> <Leader>ljs  :<C-u>CocList -I symbols<cr>
-nnoremap <silent> <Leader>lean  :<C-u>CocNext<CR>
-nnoremap <silent> <Leader>leap  :<C-u>CocPrev<CR>
-nnoremap <silent> <Leader>ll  :<C-u>CocListResume<CR>
+nnoremap <silent> <Leader>se  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <Leader>so  :<C-u>CocList outline<cr>
+nnoremap <silent> <Leader>ss  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <Leader>nc  :<C-u>CocNext<CR>
+nnoremap <silent> <Leader>pc  :<C-u>CocPrev<CR>
+nnoremap <silent> <Leader>sr  :<C-u>CocListResume<CR>
 
 "Autocomplete
 set completeopt=noinsert,menuone,noselect
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" let g:ale_completion_enabled = 1
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
-    \ 'haskell': ['hie-wrapper', '--vomit', '--lsp', '-l', 'hie.log'],
-    \ 'cpp': ['clangd'],
-    \ 'tex': ['java', '-jar', '/home/jack/.local/bin/texlab.jar'],
-    \ 'python': ['pyls'],
-    \ }
 
 "Qol changes
 set background=dark
@@ -112,12 +91,10 @@ set shiftwidth=2  " number of spaces to use for autoindenting
 set expandtab " On pressing tab, insert 2 spaces
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set ignorecase    " ignore case when searching
+set inccommand=split
 set smartcase     " ignore case if search pattern is all lowercase,
                     "    case-sensitive otherwise
-nnoremap j gj
-nnoremap k gk
 set pastetoggle=<F2>
-nnoremap ; :
 nmap <silent> ,, :nohlsearch<CR>
 set scrolloff=5
 
@@ -145,16 +122,29 @@ set noshowmode
 
 
 "Easy motion
+let g:EasyMotion_keys = 'abcdefghijklmnopqrst'
 
 " <Leader>f{char} to move to {char}
-" map  <Leader>c <Plug>(easymotion-bd-f)
-nmap <Leader>jc <Plug>(easymotion-overwin-f)
-" s{char}{char} to move to {char}{char}
-nmap <Leader>j2c <Plug>(easymotion-overwin-f2)
-" " Move to line
-nmap <Leader>jl <Plug>(easymotion-overwin-line)
-" " Move to word
-nmap <Leader>jw <Plug>(easymotion-overwin-w)
+" Let's replace some of the default bindings
+let g:EasyMotion_startofline = 0
+map f <Plug>(easymotion-f)
+map F <Plug>(easymotion-F)
+map t <Plug>(easymotion-t)
+map T <Plug>(easymotion-t)
+" Let's replace EVEN MORE bindings
+map J gj
+map K gk
+noremap W w
+noremap B b
+map j <Plug>(easymotion-j)
+map k <Plug>(easymotion-k)
+map w <Plug>(easymotion-w)
+map b <Plug>(easymotion-b)
+nmap s <Plug>(easymotion-bd-f)
+
+" Generic mappings
+nmap <Leader>w :w<CR>
+nmap <Leader>q :q<CR>
 
 
 " FZF - Fuzzy finder
@@ -167,6 +157,8 @@ autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
+
+" pdflatex configuration
 let g:livepreview_engine = 'pdflatex' . ' -shell-escape'
 
 " FILETYPE SPECIFIC CONFIGURATIONS ===========================================
