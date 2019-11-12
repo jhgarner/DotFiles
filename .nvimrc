@@ -127,19 +127,20 @@ let g:EasyMotion_keys = 'abcdefghijklmnopqrst'
 " <Leader>f{char} to move to {char}
 " Let's replace some of the default bindings
 let g:EasyMotion_startofline = 0
-map f <Plug>(easymotion-f)
-map F <Plug>(easymotion-F)
-map t <Plug>(easymotion-t)
-map T <Plug>(easymotion-t)
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
+map t <Plug>(easymotion-tl)
+map T <Plug>(easymotion-TL)
 " Let's replace EVEN MORE bindings
+noremap C J
 map J gj
 map K gk
 noremap W w
 noremap B b
 map j <Plug>(easymotion-j)
 map k <Plug>(easymotion-k)
-map w <Plug>(easymotion-w)
-map b <Plug>(easymotion-b)
+map w <Plug>(easymotion-wl)
+map b <Plug>(easymotion-bl)
 nmap s <Plug>(easymotion-bd-f)
 
 " Generic mappings
