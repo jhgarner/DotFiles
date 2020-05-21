@@ -300,6 +300,10 @@
 
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
+(defun spaces ()
+  (interactive)
+  (insert-char ?\s standard-indent))
+(add-hook 'text-mode-hook (define-key text-mode-map (kbd "TAB") 'spaces))
 (add-hook 'text-mode-hook 'flyspell-mode)
 (setq-default fill-column 80)
 
