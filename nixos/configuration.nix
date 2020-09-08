@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
       ./picom.nix
       ./directoryMover.nix
+      ./cachix.nix
+      ./xest.nix
     ];
 
   nix = {
@@ -17,11 +19,13 @@
       "https://cache.nixos.org"
       "https://cache.dhall-lang.org"
       "https://dhall.cachix.org"
+      "https://hydra.iohk.io"
     ];
 
     binaryCachePublicKeys = [
       "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
       "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
   };
 
@@ -34,6 +38,15 @@
           rev    = "9b4a6f062758f1f9a66d4e77d16c86c9aa259b42";
           sha256 = "0jf1lih85d07q1kw1v3sa4azjyf33b61kkxjakb2l6zi8fcxf4s9";
           fetchSubmodules = true;
+        };
+      });
+      neovim = super.neovim-unwrapped.overrideAttrs (old: {
+        version = "0.5.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "neovim";
+          repo = "neovim";
+          rev = "c1d395a6d664933ec7a644362721db115efef664";
+          sha256 = "0v7m82jr6b6pmn9n8rfq35jypm6m6vhbr6ln2arxlyv2xzlavffh";
         };
       });
     })
@@ -87,7 +100,7 @@
   # ];
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git feh redshift zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python37 spotify riot-desktop discord steam pavucontrol hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 obs-studio screenkey xdotool kdenlive ffmpeg maim neo-cowsay gnupg p7zip mumble
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git feh redshift zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python37 spotify element-desktop discord steam pavucontrol hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 obs-studio screenkey xdotool kdenlive ffmpeg maim neo-cowsay gnupg p7zip mumble patchelf
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -238,6 +251,7 @@ services.xserver.windowManager.session = [{
   ];
 
   programs.java.enable = true;
+  services.directoryMover.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
