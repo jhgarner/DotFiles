@@ -45,7 +45,7 @@ in {
   };
 
   config = {
-    programs.zsh.promptInit = "[[ -e ~/directories/.lock ]] && cat ~/directories/.lock";
+    programs.zsh.promptInit = "[[ -e ~/directories/.message ]] && cat ~/directories/.message";
     systemd.user.services.directoryMover =
       { description = "Backup watched directories";
         path = [ dmPackage pkgs.git ];
