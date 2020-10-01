@@ -6,7 +6,7 @@ if !exists('g:vscode')
   Plug 'bivab/prob.vim'
 
   " Autocomplete extensions
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
   Plug 'derekwyatt/vim-scala'
 
   Plug 'xuhdev/vim-latex-live-preview'
@@ -41,41 +41,41 @@ if !exists('g:vscode')
   set signcolumn=yes
   set cmdheight=2
 
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  " autocmd CursorHold * silent call CocActionAsync('highlight')
 
-  inoremap <silent><expr> <c-space> coc#refresh()
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " inoremap <silent><expr> <c-space> coc#refresh()
+  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-  " Error searching
-  nmap <silent> <Leader>pe <Plug>(coc-diagnostic-prev)
-  nmap <silent> <Leader>ne <Plug>(coc-diagnostic-next)
+  " " Error searching
+  " nmap <silent> <Leader>pe <Plug>(coc-diagnostic-prev)
+  " nmap <silent> <Leader>ne <Plug>(coc-diagnostic-next)
 
-  nmap <silent> <Leader>gd <Plug>(coc-definition)
-  nmap <silent> <Leader>gt <Plug>(coc-type-definition)
-  nmap <silent> <Leader>gi <Plug>(coc-implementation)
-  nmap <silent> <Leader>gr <Plug>(coc-references)
+  " nmap <silent> <Leader>gd <Plug>(coc-definition)
+  " nmap <silent> <Leader>gt <Plug>(coc-type-definition)
+  " nmap <silent> <Leader>gi <Plug>(coc-implementation)
+  " nmap <silent> <Leader>gr <Plug>(coc-references)
 
-  " nmap <Leader>a <Plug>(coc-codeaction)
+  " " nmap <Leader>a <Plug>(coc-codeaction)
 
-  nnoremap <silent> <Leader>f :call CocAction('format')<CR>
+  " nnoremap <silent> <Leader>f :call CocAction('format')<CR>
 
-  function! s:show_documentation()
-    if &filetype == 'vim'
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-  nnoremap <silent> <Leader>gh :call <SID>show_documentation()<CR>
+  " function! s:show_documentation()
+  "   if &filetype == 'vim'
+  "     execute 'h '.expand('<cword>')
+  "   else
+  "     call CocAction('doHover')
+  "   endif
+  " endfunction
+  " nnoremap <silent> <Leader>gh :call <SID>show_documentation()<CR>
 
-  nmap <Leader>lr <Plug>(coc-rename)
+  " nmap <Leader>lr <Plug>(coc-rename)
 
-  nnoremap <silent> <Leader>se  :<C-u>CocList diagnostics<cr>
-  nnoremap <silent> <Leader>so  :<C-u>CocList outline<cr>
-  nnoremap <silent> <Leader>ss  :<C-u>CocList -I symbols<cr>
-  nnoremap <silent> <Leader>nc  :<C-u>CocNext<CR>
-  nnoremap <silent> <Leader>pc  :<C-u>CocPrev<CR>
-  nnoremap <silent> <Leader>sr  :<C-u>CocListResume<CR>
+  " nnoremap <silent> <Leader>se  :<C-u>CocList diagnostics<cr>
+  " nnoremap <silent> <Leader>so  :<C-u>CocList outline<cr>
+  " nnoremap <silent> <Leader>ss  :<C-u>CocList -I symbols<cr>
+  " nnoremap <silent> <Leader>nc  :<C-u>CocNext<CR>
+  " nnoremap <silent> <Leader>pc  :<C-u>CocPrev<CR>
+  " nnoremap <silent> <Leader>sr  :<C-u>CocListResume<CR>
 
   "Autocomplete
   set completeopt=noinsert,menuone,noselect
@@ -126,28 +126,6 @@ if !exists('g:vscode')
   hi Normal guibg=NONE ctermbg=NONE
 
 
-  "Easy motion
-  let g:EasyMotion_keys = 'abcdefghijklmnopqrst'
-
-  " <Leader>f{char} to move to {char}
-  " Let's replace some of the default bindings
-  let g:EasyMotion_startofline = 0
-  map f <Plug>(easymotion-fl)
-  map F <Plug>(easymotion-Fl)
-  map t <Plug>(easymotion-tl)
-  map T <Plug>(easymotion-TL)
-  " Let's replace EVEN MORE bindings
-  noremap C J
-  map J gj
-  map K gk
-  noremap W w
-  noremap B b
-  map j <Plug>(easymotion-j)
-  map k <Plug>(easymotion-k)
-  map w <Plug>(easymotion-wl)
-  map b <Plug>(easymotion-bl)
-  nmap s <Plug>(easymotion-bd-f)
-
   " Generic mappings
   nmap <Leader>w :w<CR>
   nmap <Leader>q :q<CR>
@@ -183,65 +161,12 @@ if !exists('g:vscode')
   nnoremap <Leader>a :CocCommand actions.open<CR>
 else
   call plug#begin('~/.vim/plugged')
-  " Generic language plugins,
-  " Plug 'sheerun/vim-polyglot' " For random language support
-  " Plug 'calviken/vim-gdscript3' " Sometimes I open Godot files
-  " Plug 'bivab/prob.vim'
-
-  " Autocomplete extensions
-  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-  " Plug 'derekwyatt/vim-scala'
-
-  " Plug 'xuhdev/vim-latex-live-preview'
-  " Plug 'rhysd/vim-grammarous'
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  " Plug 'junegunn/fzf.vim'
-
-
-  "Ui changes
-  " Plug 'airblade/vim-gitgutter' " Show git info
-  " Plug 'junegunn/rainbow_parentheses.vim' " Make parentheses cooler
-  Plug 'tpope/vim-sleuth' " Pick the right tab/spacing automatically
-  " Plug 'drewtempelmeyer/palenight.vim' " My color scheme
-  " Plug 'itchyny/lightline.vim' " The status bar
-  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " I like spacemacs
-
   "Movement plugins
-  Plug 'asvetliakov/vim-easymotion' " Replace ALL the keybindings
+  Plug 'asvetliakov/vim-easymotion', { 'as': 'easyFork' } " Replace ALL the keybindings
   " Plug 'tpope/vim-commentary' " gcc to comment a line
   Plug 'tpope/vim-surround' " Some surround commands I should use more often
   call plug#end()
 
-  let mapleader=" "
-  " nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
-
-  "Easy motion
-  let g:EasyMotion_keys = 'abcdefghijklmnopqrst'
-
-  " <Leader>f{char} to move to {char}
-  " Let's replace some of the default bindings
-  let g:EasyMotion_startofline = 0
-  map f <Plug>(easymotion-fl)
-  map F <Plug>(easymotion-Fl)
-  map t <Plug>(easymotion-tl)
-  map T <Plug>(easymotion-TL)
-  " Let's replace EVEN MORE bindings
-  noremap C J
-  " map J gj
-  map K :<CR>
-  map k :<CR>
-  " noremap W w
-  " noremap B b
-  map j <Plug>(easymotion-j)
-  map J <Plug>(easymotion-k)
-  map w <Plug>(easymotion-wl)
-  map W <Plug>(easymotion-bl)
-  nmap s <Plug>(easymotion-bd-f)
-
-  xmap gc  <Plug>VSCodeCommentary
-  nmap gc  <Plug>VSCodeCommentary
-  omap gc  <Plug>VSCodeCommentary
-  nmap gcc <Plug>VSCodeCommentaryLine
 
   " Generic mappings
   nmap <Leader>w :Write<CR>
@@ -278,4 +203,39 @@ else
   autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
   " autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
   autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none
+
 endif
+
+let mapleader=" "
+" nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
+
+"Easy motion
+let g:EasyMotion_keys = 'abcdefghijklmnopqrst'
+
+" <Leader>f{char} to move to {char}
+" Let's replace some of the default bindings
+let g:EasyMotion_startofline = 0
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
+map t <Plug>(easymotion-tl)
+map T <Plug>(easymotion-TL)
+" Let's replace EVEN MORE bindings
+noremap C J
+" map J gj
+map K :<CR>
+map k :<CR>
+" noremap W w
+" noremap B b
+map j <Plug>(easymotion-j)
+map J <Plug>(easymotion-k)
+map w <Plug>(easymotion-wl)
+map W <Plug>(easymotion-bl)
+
+map e <Plug>(easymotion-el)
+" map E <Plug>(easymotion-Bl)
+nmap s <Plug>(easymotion-bd-f)
+
+xmap gc  <Plug>VSCodeCommentary
+nmap gc  <Plug>VSCodeCommentary
+omap gc  <Plug>VSCodeCommentary
+nmap gcc <Plug>VSCodeCommentaryLine
