@@ -1,3 +1,4 @@
+let mapleader=" "
 if !exists('g:vscode')
   call plug#begin('~/.vim/plugged')
   " Generic language plugins,
@@ -168,9 +169,9 @@ else
   call plug#end()
 
 
-  " Generic mappings
   nmap <Leader>w :Write<CR>
   nmap <Leader>q :Quit<CR>
+  " Generic mappings
   nmap <Leader>of :call VSCodeNotify("workbench.action.quickOpen")<CR>
   nmap <Leader>or :call VSCodeNotify("workbench.action.quickOpenRecent")<CR>
   nmap <Leader>op :call VSCodeNotify("workbench.action.files.openFolder")<CR>
@@ -206,7 +207,6 @@ else
 
 endif
 
-let mapleader=" "
 " nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
 
 "Easy motion
