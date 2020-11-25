@@ -4,7 +4,7 @@ with lib;
 
 let
   cfg = config.services.directoryMover;
-  dmPackage = pkgs.python37.pkgs.buildPythonPackage rec {
+  dmPackage = pkgs.python37.pkgs.buildPythonApplication rec {
       pname = "directoryMover";
       version = "0.0.1";
 
@@ -45,6 +45,7 @@ in {
   };
 
   config = {
+    environment.systemPackages = [ dmPackage ];
     programs.zsh.promptInit = "[[ -e ~/directories/.message ]] && cat ~/directories/.message";
     systemd.user.services.directoryMover =
       { description = "Backup watched directories";
@@ -56,7 +57,7 @@ in {
         };
         script =
           ''
-            ${dmPackage}/bin/mapProject.py
+            syncProjects
           '';
       };
 
@@ -79,7 +80,7 @@ in {
           ''
             for dir in /home/*/
             do
-              su -c "${dmPackage}/bin/mapProject.py $dir" $(basename $dir)
+              su -c "syncProjects $dir" $(basename $dir)
             done
           '';
       };

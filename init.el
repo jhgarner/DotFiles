@@ -22,12 +22,12 @@
   :load-path "~/sources/posframe/"
   )
 
-(use-package direnv
-  :ensure t
-  :config
-  ;; (setq direnv--hooks ())
-  (direnv-mode))
 (use-package magit
+  :ensure t
+  )
+(use-package tex-mode
+  :ensure auctex)
+(use-package latex-preview-pane
   :ensure t
   )
 
@@ -134,9 +134,9 @@
   (use-package ivy-posframe
     :ensure t
     :init
-    (setq focus-follows-mouse t
-	  mouse-autoselect-window t
-	  )
+    ;; (setq focus-follows-mouse t
+    ;; 	  mouse-autoselect-window t
+    ;; 	  )
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
     :custom-face
     (ivy-posframe-border ((t (:background "#ffffff"))))
@@ -347,7 +347,7 @@
 (use-package lsp-mode
   :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-	 ;; (haskell-mode . lsp)
+	 (haskell-mode . lsp)
 	 ;; (haskell-mode . (lambda () (message "Calling Direnv") (direnv-update-directory-environment (direnv--directory)) (message "Called Direnv") (message "Calling lsp") (lsp) (message "Called lsp")))
 	 ;; (change-major-mode-after-body-hook . (lambda () ))
 	 ;; (haskell-mode . direnv--maybe-update-environment)
@@ -355,12 +355,20 @@
 	 (lsp-mode . lsp-enable-which-key-integration))
   :init
   :config
+  (use-package lsp-ui :ensure t :commands lsp-ui-mode
+    :config
+    (add-to-list 'lsp-ui-doc-frame-parameters '(no-accept-focus . t))
+    (setq lsp-ui-doc-position 'bottom
+	  ;; focus-follows-mouse t
+	  lsp-ui-sideline-show-diagnostics nil
+	  lsp-ui-sideline-show-hover nil))
   (setq lsp-completion-provider :capf)
   ;; (setq lsp-log-io t)
   (setq inhibit-eol-conversion t)
   (setq lsp-diagnostics-modeline-scope :project)
   (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode)
-  :commands lsp)
+  ;; :commands lsp)
+  )
 
 (use-package lsp-haskell
   :ensure t
@@ -368,14 +376,13 @@
   :config
   ;; (setq lsp-haskell-process-path-hie "ghcide")
   ;; (setq lsp-haskell-process-args-hie '())
-  (add-hook 'haskell-mode-hook #'lsp)
+  ;; (add-hook 'haskell-mode-hook #'lsp)
 
   ;; Comment/uncomment this line to see interactions between lsp client/server.
   ;; (setq lsp-log-io t)
   )
 
 ;; optionally
-;; (use-package lsp-ui :ensure t :commands lsp-ui-mode)
 ;; if you are helm user
 (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 ;; (use-package treemacs
@@ -424,10 +431,8 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#0d0d0d" "#81a2be"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0d0d" "#b5bd68"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d0d0d" "#5a5b5a"))
- '(lsp-ui-doc-position 'bottom)
- '(lsp-ui-sideline-show-diagnostics nil)
- '(lsp-ui-sideline-show-hover nil)
- '(mouse-autoselect-window nil)
+ '(lsp-before-initialize-hook '(doom-modeline-update-lsp direnv-update-environment))
+ '(lsp-before-open-hook '(doom-modeline-update-lsp direnv-update-environment))
  '(objed-cursor-color "#cc6666")
  '(package-selected-packages
    '(auto-package-update slime direnv ivy-posframe sublimity sublimity-scroll company-quickhelp evil-indent-plus dtrt-indent treemacs-projectile treemacs-evil company-mode counsel-projectile projectile counsel lsp-treemacs lsp-ivy lsp-haskell flycheck lsp-ui lsp-mode doom-modeline fira-code-mode general which-key doom-themes evil-nerd-commenter evil-easymotion evil use-package))
@@ -518,7 +523,8 @@
 	   "od"  '(counsel-find-file :which-key "find files in directory")
 	   "ob"  '(ivy-switch-buffer :which-key "buffers list")
 	   "op"  '(counsel-projectile-switch-project :which-key "project list")
-	   "of"  '(counsel-projectile-find-file :whic-key "find files in project")
+	   "of"  '(counsel-projectile-find-file :which-key "find files in project")
+	   "os"  '(counsel-projectile-rg :which-key "Find file by search")
 	   "ot"  '(ansi-term :which-key "open terminal")
 	   ;; right
 	   "lw"  '(windmove-right :which-key "move right")
@@ -538,6 +544,12 @@
 	   ;; Others
 	   "s" '(:keymap lsp-command-map :package lsp-mode :which-key "LSP")
 	   ))
+
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode)
+  (advice-add 'lsp :before (lambda (&optional x) (message "Calling Direnv") (direnv-update-environment) (message "Called Direnv"))))
 
 (provide 'init)
 ;;; init.el ends here

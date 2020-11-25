@@ -28,6 +28,10 @@
       "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
+    extraOptions = ''
+      keep-outputs = true
+      keep-derivations = true
+    '';
   };
 
   nixpkgs.overlays = [
@@ -39,6 +43,7 @@
           sha256 = "0qrzvc8cp8azb1b2wb5i4jh9smjfw5rxiw08bfqm8p3v74ycvwk8";
         };
       });
+      zathura = super.zathura.override { useMupdf = false; };
       neovim = super.neovim-unwrapped.overrideAttrs (old: {
         version = "0.5.0";
         src = self.fetchFromGitHub {
@@ -81,8 +86,13 @@
   # A whole bunch of programs to install
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python37 spotify element-desktop discord steam pavucontrol hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 obs-studio screenkey xdotool kdenlive ffmpeg maim neo-cowsay gnupg p7zip mumble patchelf kdeApplications.kmag lynx
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python37 spotify element-desktop discord steam pavucontrol hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 obs-studio screenkey xdotool kdenlive ffmpeg maim neo-cowsay gnupg p7zip mumble patchelf kdeApplications.kmag lynx nix-direnv
     ];
+
+  environment.pathsToLink = [
+    "/share/nix-direnv"
+  ];
+
 
 
   # Enable the OpenSSH daemon.
@@ -99,6 +109,7 @@
   services.xserver.enable = true;
   services.xserver.layout = "us";
   services.xserver.xkbVariant = "3l";
+  services.xserver.windowManager.i3.enable = true;
 
   # Add GDM and Gnome3 because I don't trust Xest...
   services.xserver.displayManager.gdm.enable = true;
@@ -122,6 +133,8 @@
     extraGroups = [ "wheel" "networkmanager" "video" "adbusers" "docker"]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
+
+  programs.adb.enable = true;
 
   services.xserver.desktopManager.wallpaper.mode = "scale";
 
@@ -171,7 +184,7 @@
 
   services.teamviewer.enable = true;
 
-  services.lorri.enable = true;
+  # services.lorri.enable = true;
 
   services.hardware.xow.enable = true;
 

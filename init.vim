@@ -1,5 +1,5 @@
-let mapleader=" "
-if !exists('g:vscode')
+ let mapleader=" "
+ if !exists('g:vscode')
   call plug#begin('~/.vim/plugged')
   " Generic language plugins,
   Plug 'sheerun/vim-polyglot' " For random language support
@@ -188,22 +188,24 @@ else
   filetype plugin indent on
   set hidden " don't close when switching buffers
   set tabstop=2     " a tab is two spaces
-  set copyindent    " copy the previous indentation on autoindenting
+  " set copyindent    " copy the previous indentation on autoindenting
   set shiftwidth=2  " number of spaces to use for autoindenting
   set expandtab " On pressing tab, insert 2 spaces
   set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-  set ignorecase    " ignore case when searching
-  " set inccommand=split
   set smartcase     " ignore case if search pattern is all lowercase,
                       "    case-sensitive otherwise
-  set pastetoggle=<F2>
   nmap <silent> ,, :nohlsearch<CR>
-  set scrolloff=5
 
   autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal tw=80
   autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
   " autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
   autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none
+
+
+  xmap gc  <Plug>VSCodeCommentary
+  nmap gc  <Plug>VSCodeCommentary
+  omap gc  <Plug>VSCodeCommentary
+  nmap gcc <Plug>VSCodeCommentaryLine
 
 endif
 
@@ -234,8 +236,3 @@ map W <Plug>(easymotion-bl)
 map e <Plug>(easymotion-el)
 " map E <Plug>(easymotion-Bl)
 nmap s <Plug>(easymotion-bd-f)
-
-xmap gc  <Plug>VSCodeCommentary
-nmap gc  <Plug>VSCodeCommentary
-omap gc  <Plug>VSCodeCommentary
-nmap gcc <Plug>VSCodeCommentaryLine

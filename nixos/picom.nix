@@ -8,6 +8,13 @@
   services.picom.shadow = true;
   services.picom.vSync = true;
   services.picom.fadeDelta = 5;
+  services.picom.experimentalBackends = true;
+  services.picom.shadowExclude = [
+    "name = 'cpt_frame_window'"
+    "name = 'as_toolbar'"
+    "name = 'zoom_linux_float_video_window'"
+    "name = 'AnnoInputLinux'"
+  ];
   services.picom.settings = {
     detect-rounded-corners = true;
     detect-client-opacity = true;
@@ -16,9 +23,15 @@
       method = "dual_kawase";
       strength = 10;
     };
-    blur-background-exclude = "name *= \"slop\"";
+    blur-background-exclude = [
+      "name *= 'slop'"
+      "name = 'cpt_frame_window'"
+      "name = 'as_toolbar'"
+      "name = 'zoom_linux_float_video_window'"
+      "name = 'AnnoInputLinux'"
+    ];
     opacity-rule = [
-      "75:class_g = 'xest-exe'"
+      "50:class_g = 'xest-exe'"
     ];
   };
 
@@ -29,21 +42,12 @@
         src = self.fetchFromGitHub {
           owner  = "yshui";
           repo   = "picom";
-          rev    = "699ff9bc82fc8034dd9d5a1ac0f8810bbd4b06da";
-          sha256 = "1cklyg656gc1gs004qnhhc2lpwipx5frn20w65484l57smjyjdck";
+          rev    = "248bffede73e520a4929dd7751667d29d4169d59";
+          sha256 = "0agg1jk40dwxph1dixdlb48n8iy5vffcpkkirkyrkfwnvaxsw6zj";
           fetchSubmodules = true;
         };
       });
     })
   ];
-
-  systemd.user.services.picom = {...}: {
-    options = {
-      serviceConfig = lib.mkOption {
-        apply = opts: opts // {ExecStart = opts.ExecStart + " --experimental-backends";};
-      };
-    };
-    config = {};
-  };
 };
 }
