@@ -7,13 +7,11 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
       ./picom.nix
-      ./directoryMover.nix
       # ./xest.nix
       ./redshift.nix
-      ./desktop.nix
-      # ./laptop.nix
+      ./directoryMover.nix
+
     ];
 
   nix = {
