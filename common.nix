@@ -45,11 +45,17 @@
     })
   ];
 
+  services.udev.packages = [ pkgs.android-udev-rules ];
+  programs.adb.enable = true;
+
+
   networking.networkmanager.enable = true;  # Enables wireless support via NetworkManager
 
   networking.useDHCP = false;
   networking.interfaces.enp8s0.useDHCP = true;
   networking.interfaces.wlp6s0.useDHCP = true;
+  networking.interfaces.wlp7s0.useDHCP = true;
+
   networking.networkmanager.dhcp = "internal";
   networking.dhcpcd.enable = false;
 
@@ -62,13 +68,14 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python37 spotify element-desktop discord steam pavucontrol hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 obs-studio screenkey xdotool kdenlive ffmpeg maim neo-cowsay gnupg p7zip mumble patchelf kdeApplications.kmag lynx nix-direnv
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify element-desktop discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf kdeApplications.kmag lynx nix-direnv
     ];
 
   environment.pathsToLink = [
     "/share/nix-direnv"
   ];
 
+  programs.gnupg.agent.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -93,7 +100,6 @@
   services.xserver.windowManager.session = [{
     name  = "xest";
     start = ''
-      xrandr --output DP-0 --mode 1920x1080 -r 144
       /home/jack/.local/bin/xest-exe &
       waitPID=$!
     '';
@@ -105,11 +111,10 @@
     isNormalUser = true;
     home = "/home/jack";
     hashedPassword = "$6$0ezGsg1cC$KoCnA3QoxZ0UzF2gAOca3m9Ura8Gnb389RJg5XWcqTdMI3t6sJUJrlSPyUOwuh2v401L2a5Ot5Pv4OfgaHcGE1";
-    extraGroups = [ "wheel" "networkmanager" "video" "adbusers" "docker"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "video" "adbusers" "docker" "wireshark"]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
-  programs.adb.enable = true;
 
   services.xserver.desktopManager.wallpaper.mode = "scale";
 
