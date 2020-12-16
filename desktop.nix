@@ -12,4 +12,7 @@
 
   # Define my hostname and networking
   networking.hostName = "jackDesktop"; # Define your hostname.
+
+
+  networking.interfaces.wlp6s0.useDHCP = true;
 }

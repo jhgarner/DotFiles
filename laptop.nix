@@ -8,6 +8,7 @@
 
   networking.hostName = "jackLaptop"; # Define your hostname.
 
+  networking.interfaces.wlp7s0.useDHCP = true;
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;

@@ -32,5 +32,11 @@
   # High-DPI console
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
 
-  hardware.bumblebee.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.prime = {
+    offload.enable = true;
+    intelBusId = "PCI:0:02:0";
+    nvidiaBusId = "PCI:01:00:0";
+  };
+  # hardware.bumblebee.enable = true;
 }
