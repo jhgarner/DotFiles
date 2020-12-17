@@ -1,13 +1,15 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [(
-    let
-      version = "1.7.2";
-      dbusService = fetchurl {
-        url = "https://github.com/phuhl/linux_notification_center/raw/${version}/com.ph-uhl.deadd.notification.service.in";
-        sha256 = "0jvmi1c98hm8x1x7kw9ws0nbf4y56yy44c3bqm6rjj4lrm89l83s";
-      };
-      in stdenv.mkDerivation rec {
+  environment.systemPackages = with pkgs; [
+    (
+      let
+        version = "1.7.2";
+        dbusService = fetchurl {
+          url = "https://github.com/phuhl/linux_notification_center/raw/${version}/com.ph-uhl.deadd.notification.service.in";
+          sha256 = "0jvmi1c98hm8x1x7kw9ws0nbf4y56yy44c3bqm6rjj4lrm89l83s";
+        };
+      in
+      stdenv.mkDerivation rec {
         inherit version;
         pname = "deadd-notification-center";
 
@@ -41,5 +43,7 @@
           maintainers = [ maintainers.pacman99 ];
           platforms = platforms.linux;
         };
-      })];
+      }
+    )
+  ];
 }
