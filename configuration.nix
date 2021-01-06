@@ -4,9 +4,9 @@
   imports =
     [ 
       ./common.nix
-      ./hardware-desktop.nix
-      # ./hardware-laptop.nix
-      ./desktop.nix
-      # ./laptop.nix
+      # ./hardware-desktop.nix
+      ./hardware-laptop.nix
+      # ./desktop.nix
+      ./laptop.nix
     ];
 }

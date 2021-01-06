@@ -1,6 +1,7 @@
 {lib, ...}:
 
 { config = {
+  services.redshift.temperature.day = 6500;
   systemd.user.services.redshift = {...}: {
     options = {
       serviceConfig = lib.mkOption {
