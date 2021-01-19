@@ -13,11 +13,11 @@ let
 
   nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/archive/master.tar.gz) {pkgs = oldPkgs;};
 
-  # xest-package = import /home/jack/code/haskell/neXtWM {pkgs = oldPkgs;};
-  xest-package = import (builtins.fetchGit {
-    url = https://github.com/jhgarner/Xest-Window-Manager.git;
-    ref = "master";
-  }) {pkgs = oldPkgs;};
+  xest-package = import /home/jack/code/haskell/neXtWM {pkgs = oldPkgs;};
+  # xest-package = import (builtins.fetchGit {
+  #   url = https://github.com/jhgarner/Xest-Window-Manager.git;
+  #   ref = "master";
+  # }) {pkgs = oldPkgs;};
 in {
   options.services.xest = {
     useIntel = mkOption {
