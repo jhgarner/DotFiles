@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./picom.nix
-      ./xest.nix
+      # ./xest.nix
       ./redshift.nix
       ./directoryMover.nix
       ./deadd-notification-center.nix
@@ -33,17 +33,17 @@
   };
 
   nixpkgs.overlays = [
-    (self: super: {
-      neovim = super.neovim-unwrapped.overrideAttrs (old: {
-        version = "0.5.0";
-        src = self.fetchFromGitHub {
-          owner = "neovim";
-          repo = "neovim";
-          rev = "c1d395a6d664933ec7a644362721db115efef664";
-          sha256 = "0v7m82jr6b6pmn9n8rfq35jypm6m6vhbr6ln2arxlyv2xzlavffh";
-        };
-      });
-    })
+    # (self: super: {
+    #   neovim = super.neovim-unwrapped.overrideAttrs (old: {
+    #     version = "0.5.0";
+    #     src = self.fetchFromGitHub {
+    #       owner = "neovim";
+    #       repo = "neovim";
+    #       rev = "459a6c845e87662aa9aa0d6a0a68dc8d817a0498";
+    #       sha256 = "0qs05mq70z7hqqmch7siyng4bry1r2fc36iw0pkyzfiy9rv5fvlq";
+    #     };
+    #   });
+    # })
   ];
 
   services.udev.packages = [ pkgs.android-udev-rules ];
@@ -67,7 +67,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify element-desktop discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf kdeApplications.kmag lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify element-desktop discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf kdeApplications.kmag lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted
     ];
 
   environment.pathsToLink = [
