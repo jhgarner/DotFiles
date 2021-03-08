@@ -12,8 +12,8 @@
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
-  services.xserver.libinput.naturalScrolling = true;
-  services.xserver.libinput.clickMethod = "clickfinger";
+  services.xserver.libinput.touchpad.naturalScrolling = true;
+  services.xserver.libinput.touchpad.clickMethod = "clickfinger";
 
   services.xserver.displayManager.setupCommands = ''
     xrdb -merge /home/jack/.Xresources
