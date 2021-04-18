@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./picom.nix
+      ./icomoon.nix
       # ./xest.nix
       ./redshift.nix
       ./directoryMover.nix
@@ -32,17 +33,18 @@
   };
 
   nixpkgs.overlays = [
-    # (self: super: {
-    #   neovim = super.neovim-unwrapped.overrideAttrs (old: {
-    #     version = "0.5.0";
-    #     src = self.fetchFromGitHub {
-    #       owner = "neovim";
-    #       repo = "neovim";
-    #       rev = "459a6c845e87662aa9aa0d6a0a68dc8d817a0498";
-    #       sha256 = "0qs05mq70z7hqqmch7siyng4bry1r2fc36iw0pkyzfiy9rv5fvlq";
-    #     };
-    #   });
-    # })
+    (self: super: {
+      neovim = super.neovim-unwrapped.overrideAttrs (old: {
+        version = "0.5.0";
+        src = self.fetchFromGitHub {
+          owner = "neovim";
+          repo = "neovim";
+          rev = "a129887c00a2d5e49fc551ba0bbffe88cefb56c0";
+          sha256 = "0ixlbpmc5kmbwbj1aj41ip5l122dzcmq1rzxfrxy9vkmy4madqpz";
+        };
+        buildInputs = old.buildInputs ++ [self.tree-sitter];
+      });
+    })
   ];
 
   services.udev.packages = [ pkgs.android-udev-rules ];
@@ -66,7 +68,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify element-desktop discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf plasma5Packages.kmag lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf plasma5Packages.kmag lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute
     ];
 
   environment.pathsToLink = [
@@ -177,5 +179,9 @@
   virtualisation.docker.enable = true;
 
   services.xserver.digimend.enable = true;
+
+  services.openvpn.servers = {
+    minesVPN  = { config = '' config /root/client.ovpn ''; };
+  };
 }
 
