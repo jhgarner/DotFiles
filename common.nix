@@ -68,7 +68,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf plasma5Packages.kmag lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute
     ];
 
   environment.pathsToLink = [
@@ -95,8 +95,9 @@
 
   # Add GDM and Gnome3 because I don't trust Xest...
   # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome3.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.gdm.wayland = false;
+  services.xserver.desktopManager.gnome3.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   # I keep this around for easy testing
   services.xserver.windowManager.session = [{
@@ -180,8 +181,8 @@
 
   services.xserver.digimend.enable = true;
 
-  services.openvpn.servers = {
-    minesVPN  = { config = '' config /root/client.ovpn ''; };
-  };
+  # services.openvpn.servers = {
+  #   minesVPN  = { config = '' config /root/client.ovpn ''; };
+  # };
 }
 
