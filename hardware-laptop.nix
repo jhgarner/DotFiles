@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "nvidia" ];
   virtualisation.libvirtd.enable = true;
 
   boot.extraModulePackages = [ ];
@@ -32,7 +32,7 @@
   # High-DPI console
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "intel" "nvidia" ];
   hardware.nvidia.prime = {
     offload.enable = true;
     intelBusId = "PCI:0:02:0";

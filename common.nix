@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -10,7 +10,6 @@
       ./picom.nix
       ./icomoon.nix
       # ./xest.nix
-      ./redshift.nix
       ./directoryMover.nix
       ./deadd-notification-center.nix
     ];
@@ -95,9 +94,9 @@
 
   # Add GDM and Gnome3 because I don't trust Xest...
   # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome3.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.gdm.wayland = true;
+  # services.xserver.desktopManager.gnome3.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   # I keep this around for easy testing
   services.xserver.windowManager.session = [{
@@ -152,8 +151,13 @@
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
 
-  location.provider = "geoclue2";
+  location.provider = "manual";
+  location.latitude = 50;
+  location.longitude = -110;
   services.redshift.enable = true;
+  services.redshift.executable = "/bin/redshift-gtk";
+
+  boot.plymouth.enable = true;
 
   programs.ssh.startAgent = true;
 
