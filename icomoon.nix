@@ -25,5 +25,5 @@ let icomoon = pkgs.fetchFromGitHub {
     cp ${linotte}/*.otf -d $out/share/fonts/opentype/
     '';
 in {
-  config.fonts.fonts = [ icomoon linotte-font ];
+  config.fonts.fonts = [ icomoon ];
 }

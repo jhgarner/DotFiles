@@ -152,8 +152,8 @@
   programs.zsh.syntaxHighlighting.enable = true;
 
   location.provider = "manual";
-  location.latitude = 50;
-  location.longitude = -110;
+  location.latitude = 50.0;
+  location.longitude = -110.0;
   services.redshift.enable = true;
   services.redshift.executable = "/bin/redshift-gtk";
 
