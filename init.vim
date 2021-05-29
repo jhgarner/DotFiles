@@ -1,274 +1,267 @@
-""""""
-""""""
-"""""
-""""""
-""""""
-""""""
+call plug#begin('~/.vim/plugged')
+
+" Lua dependencies
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
+
+" Generic language plugins,
+Plug 'sheerun/vim-polyglot' " For random language support
+Plug 'jhgarner/ui-experiments', {'dir': '~/code/unknown/AuraUI'}
+Plug 'LnL7/vim-nix'
+Plug 'plasticboy/vim-markdown'
+
+" Autocomplete/LSP extensions
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim', {'branch': 'main'}
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'hrsh7th/nvim-compe'
+
+Plug 'derekwyatt/vim-scala'
+Plug 'xuhdev/vim-latex-live-preview'
+Plug 'rhysd/vim-grammarous'
 
 
- let mapleader=" "
- if !exists('g:vscode')
-  call plug#begin('~/.vim/plugged')
-  " Generic language plugins,
-  " Plug 'sheerun/vim-polyglot' " For random language support
-  Plug 'jhgarner/ui-experiments', {'dir': '~/code/unknown/AuraUI'}
-  Plug 'sheerun/vim-polyglot' " For random language support
-  " Plug 'calviken/vim-gdscript3' " Sometimes I open Godot files
-  Plug 'bivab/prob.vim'
-  Plug 'LnL7/vim-nix'
-  Plug 'plasticboy/vim-markdown'
+"Ui changes
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'junegunn/rainbow_parentheses.vim' " Make parentheses cooler
+Plug 'tpope/vim-sleuth' " Pick the right tab/spacing automatically
+Plug 'folke/which-key.nvim', {'branch': 'main'}
+Plug 'monsonjeremy/onedark.nvim'
+Plug 'datwaft/bubbly.nvim'
 
-  " Autocomplete extensions
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'derekwyatt/vim-scala'
+"Movement plugins
+" Plug 'phaazon/hop.nvim', {'dir': '~/code/lua/hop.nvim'} " , {'dir': '~/sources/vim-easymotion/'} Replace ALL the keybindings
+" Until phaazon updates, use my own branch
+Plug 'jhgarner/hop.nvim', {'branch': 'mergedall'}
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
-  Plug 'xuhdev/vim-latex-live-preview'
-  Plug 'rhysd/vim-grammarous'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
+call plug#end()
 
+let mapleader=" "
 
-  "Ui changes
-  Plug 'airblade/vim-gitgutter' " Show git info
-  Plug 'junegunn/rainbow_parentheses.vim' " Make parentheses cooler
-  Plug 'tpope/vim-sleuth' " Pick the right tab/spacing automatically
-  Plug 'drewtempelmeyer/palenight.vim' " My color scheme
-  Plug 'itchyny/lightline.vim' " The status bar
-  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " I like spacemacs
-  Plug 'NLKNguyen/papercolor-theme'
-  Plug 'ayu-theme/ayu-vim'
-  Plug 'ghifarit53/tokyonight-vim'
-  Plug 'sainnhe/sonokai'
+" ======= LSP stuff =======
+lua require'lspconfig'.hls.setup{}
+lua require'lspconfig'.pyright.setup{}
 
+lua require 'lspsaga'.init_lsp_saga()
 
-  " Plug 'rakr/vim-one'
-  Plug 'joshdick/onedark.vim'
-  " Plug 'rakr/vim-one'
-  " Plug 'yarisgutierrez/ayu-lightline'
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+set cmdheight=1
+set completeopt=menuone,noselect
 
+nnoremap <silent><leader>gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent> k <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent> k :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
+nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> <leader>j <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <leader>J <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+nnoremap <silent><leader>s <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent><leader>r <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> <leader>gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent><leader>d <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>ne <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> <leader>pe <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
 
-  "Movement plugins
-  " Plug 'phaazon/hop.nvim' " , {'dir': '~/sources/vim-easymotion/'} Replace ALL the keybindings
-  " Plug 'phaazon/hop.nvim', {'dir': '~/code/lua/hop.nvim'} " , {'dir': '~/sources/vim-easymotion/'} Replace ALL the keybindings
-  Plug 'jhgarner/hop.nvim', {'branch': 'feature/additional-motions', 'dir': '~/code/lua/hop.nvim'}
-  " Plug 'jhgarner/hop.nvim', {'branch': 'feature/additional-motions'}
-  " Plug 'easymotion/vim-easymotion' " , {'dir': '~/sources/vim-easymotion/'} Replace ALL the keybindings
-  Plug 'tpope/vim-commentary' " gcc to comment a line
-  Plug 'tpope/vim-surround' " Some surround commands I should use more often
-  Plug 'tweekmonster/helpful.vim'
+" nvim-compe has a lot of config options (all copy and pasted from github)
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
 
-  call plug#end()
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
 
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
-  " I like spacemacs
-  let mapleader=" "
-  nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
+highlight link CompeDocumentation NormalFloat
 
-  "LSP
-  set updatetime=300
-  set shortmess+=c
-  set signcolumn=yes
-  set cmdheight=2
+lua << EOF
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
 
-  " autocmd CursorHold * silent call CocActionAsync('highlight')
-
-  " inoremap <silent><expr> <c-space> coc#refresh()
-  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-  " " Error searching
-  nmap <silent> <Leader>pe <Plug>(coc-diagnostic-prev)
-  nmap <silent> <Leader>ne <Plug>(coc-diagnostic-next)
-
-  nmap <silent> <Leader>gd <Plug>(coc-definition)
-  nmap <silent> <Leader>gt <Plug>(coc-type-definition)
-  nmap <silent> <Leader>gi <Plug>(coc-implementation)
-  nmap <silent> <Leader>gr <Plug>(coc-references)
-
-  nmap <Leader>a <Plug>(coc-codeaction)
-
-  nnoremap <silent> <Leader>f :call CocAction('format')<CR>
-
-  function! s:show_documentation()
-    if &filetype == 'vim'
-      execute 'h '.expand('<cword>')
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
     else
-      call CocAction('doHover')
-    endif
-  endfunction
-  nnoremap <silent> <Leader>gh :call <SID>show_documentation()<CR>
+        return false
+    end
+end
 
-  nmap <Leader>lr <Plug>(coc-rename)
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+    return t "<S-Tab>"
+  end
+end
 
-  nnoremap <silent> <Leader>se  :<C-u>CocList diagnostics<cr>
-  nnoremap <silent> <Leader>so  :<C-u>CocList outline<cr>
-  nnoremap <silent> <Leader>ss  :<C-u>CocList -I symbols<cr>
-  nnoremap <silent> <Leader>nc  :<C-u>CocNext<CR>
-  nnoremap <silent> <Leader>pc  :<C-u>CocPrev<CR>
-  nnoremap <silent> <Leader>sr  :<C-u>CocListResume<CR>
-
-  "Autocomplete
-  set completeopt=noinsert,menuone,noselect
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-  "Qol changes
-  set background=dark
-  filetype plugin indent on
-  set relativenumber 
-  set number  
-  set hidden " don't close when switching buffers
-  set tabstop=2     " a tab is two spaces
-  set copyindent    " copy the previous indentation on autoindenting
-  set shiftwidth=2  " number of spaces to use for autoindenting
-  set expandtab " On pressing tab, insert 2 spaces
-  set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-  set ignorecase    " ignore case when searching
-  set inccommand=split
-  set smartcase     " ignore case if search pattern is all lowercase,
-                      "    case-sensitive otherwise
-  set pastetoggle=<F2>
-  nmap <silent> ,, :nohlsearch<CR>
-  set scrolloff=5
-
-  "Carefully crafted rainbow configuration
-  autocmd FileType * RainbowParentheses
-  let g:rainbow#max_level = 16
-  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-  let g:rainbow#blacklist = ['#3E4452']
-  let g:livepreview_previewer = 'zathura'
-
-  "General ui stuff
-  set termguicolors
-  let ayucolor="light"
-  let g:onedark_terminal_italics = 2
-
-  colorscheme onedark
-  " colorscheme ayu
-  let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_enable_italic = 1
-
-" colorscheme tokyonight
-let g:sonokai_style = 'andromeda'
-        let g:sonokai_enable_italic = 1
-        let g:sonokai_disable_italic_comment = 1
-        " colorscheme sonokai
-  " set t_Co=256
-  " set background=light
-  " colorscheme PaperColor
-  " let g:palenight_terminal_italics=1
-  set timeoutlen=500
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
 
 
-  "Airlines
+" ======= Other UI plugins that depend on LUA =======
 
-  set laststatus=2
-  let g:lightline = {
-        \ 'colorscheme': 'onedark',
-        \ }
-  set noshowmode
+lua << EOF
+require("which-key").setup {}
+vim.g.bubbly_palette = {
+background = "#282c34",
+foreground = "#c5cdd9",
+black = "#3e4249",
+red = "#ec7279",
+green = "#a0c980",
+yellow = "#deb974",
+blue = "#6cb6eb",
+purple = "#d38aea",
+cyan = "#5dbbc1",
+white = "#c5cdd9",
+lightgrey = "#57595e",
+darkgrey = "#404247",
+}
+vim.g.bubbly_statusline = {
+'mode',
 
-  " hi Normal guibg=NONE ctermbg=NONE
+'truncate',
 
+'path',
+'branch',
+'signify',
+-- 'builtinlsp.diagnostic_count',
+'builtinlsp.current_function',
+'lsp_status.diagnostics',
+'lsp_status.messages',
 
-  " Generic mappings
-  nmap <Leader>w :w<CR>
-  nmap <Leader>q :q<CR>
+'divisor',
 
-
-  " FZF - Fuzzy finder
-  nnoremap <Leader>of :Files<CR>
-  nnoremap <Leader>op :GFiles<CR>
-  nnoremap <Leader>ob :Buffers<CR>
-  nnoremap <Leader>ol :Lines<CR>
-  nnoremap <Leader>oc :Commands<CR>
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-
-  " pdflatex configuration
-  let g:livepreview_engine = 'pdflatex' . ' -shell-escape'
-
-  " FILETYPE SPECIFIC CONFIGURATIONS ===========================================
-  " Automatically break lines at 80 characters on TeX/LaTeX, Markdown, and text
-  " files
-  " Enable spell check on TeX/LaTeX, Markdown, and text files
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal tw=80
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none
-  au BufRead,BufNewFile *.sbt set filetype=scala
-
-  " au BufRead,BufNewFile *.gd set filetype=godot
-
-  nnoremap <Leader>ot :CocCommand explorer<CR>
-  nnoremap <Leader>a :CocCommand actions.open<CR>
-else
-  call plug#begin('~/.vim/plugged')
-  "Movement plugins
-  Plug 'asvetliakov/vim-easymotion', { 'as': 'easyFork' } " Replace ALL the keybindings
-  " Plug 'tpope/vim-commentary' " gcc to comment a line
-  Plug 'tpope/vim-surround' " Some surround commands I should use more often
-  call plug#end()
+'filetype',
+'progress',
+}
+EOF
 
 
-  nmap <Leader>w :Write<CR>
-  nmap <Leader>q :Quit<CR>
-  " Generic mappings
-  nmap <Leader>of :call VSCodeNotify("workbench.action.quickOpen")<CR>
-  nmap <Leader>or :call VSCodeNotify("workbench.action.quickOpenRecent")<CR>
-  nmap <Leader>op :call VSCodeNotify("workbench.action.files.openFolder")<CR>
-  " nmap <Space><Space> :call VSCodeNotify("workbench.action.showCommands")<CR>
-  nmap <Leader>c :call VSCodeNotify("workbench.action.showCommands")<CR>
-  nmap <Leader>je :call VSCodeNotify("editor.action.marker.nextInFiles")<CR>
-  nmap <Leader>Je :call VSCodeNotify("editor.action.marker.prevInFiles")<CR>
-  nmap <Leader>nw :call VSCodeNotify("workbench.action.newWindow")<CR>
-  nmap <Leader>dw :call VSCodeNotify("workbench.action.closeWindow")<CR>
-  nmap <Leader>t :call VSCodeNotify("workbench.action.terminal.toggleTerminal")<CR>
+
+"Qol changes
+set background=dark
+filetype plugin indent on
+set relativenumber 
+set number  
+set hidden " don't close when switching buffers
+set tabstop=2     " a tab is two spaces
+set copyindent    " copy the previous indentation on autoindenting
+set shiftwidth=2  " number of spaces to use for autoindenting
+set expandtab " On pressing tab, insert 2 spaces
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set ignorecase    " ignore case when searching
+set inccommand=split
+set smartcase     " ignore case if search pattern is all lowercase,
+"    case-sensitive otherwise
+set pastetoggle=<F2>
+nmap <silent> ,, :nohlsearch<CR>
+set scrolloff=5
+
+"rainbow configuration
+autocmd FileType * RainbowParentheses
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+let g:rainbow#blacklist = ['#3E4452']
+let g:livepreview_previewer = 'zathura'
+
+"General ui stuff
+set termguicolors
+colorscheme onedark
+set timeoutlen=500
+set noshowmode
 
 
-  set background=dark
-  filetype plugin indent on
-  set hidden " don't close when switching buffers
-  set tabstop=2     " a tab is two spaces
-  " set copyindent    " copy the previous indentation on autoindenting
-  set shiftwidth=2  " number of spaces to use for autoindenting
-  set expandtab " On pressing tab, insert 2 spaces
-  set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-  set smartcase     " ignore case if search pattern is all lowercase,
-                      "    case-sensitive otherwise
-  nmap <silent> ,, :nohlsearch<CR>
-
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal tw=80
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
-  " autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
-  autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none
+" Generic mappings
+nmap <Leader>w <cmd>w<CR>
+nmap <Leader>q <cmd>q<CR>
 
 
-  xmap gc  <Plug>VSCodeCommentary
-  nmap gc  <Plug>VSCodeCommentary
-  omap gc  <Plug>VSCodeCommentary
-  nmap gcc <Plug>VSCodeCommentaryLine
+" Telescope ~ FZF
+nnoremap <Leader>of <cmd>lua require'telescope.builtin'.find_files{}<CR>
+nnoremap <Leader>og <cmd>lua require'telescope.builtin'.live_grep{}<CR>
+nnoremap <Leader>/ <cmd>lua require'telescope.builtin'.live_grep{grep_open_files = true}<CR>
+nnoremap <Leader>nf <cmd>lua require'telescope.builtin'.file_browser{}<CR>
+nnoremap <Leader>ob <cmd>lua require'telescope.builtin'.buffers{}<CR>
+nnoremap <Leader>oc <cmd>lua require'telescope.builtin'.commands{}<CR>
+nnoremap <Leader>oht <cmd>lua require'telescope.builtin'.help_tags{}<CR>
+nnoremap <Leader>ohm <cmd>lua require'telescope.builtin'.man_pages{}<CR>
+nnoremap <Leader>om <cmd>lua require'telescope.builtin'.marks{}<CR>
+nnoremap <Leader>s <cmd>lua require'telescope.builtin'.spell_suggest{}<CR>
 
-endif
 
-" nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
+" pdflatex configuration
+let g:livepreview_engine = 'pdflatex' . ' -shell-escape'
+
+" FILETYPE SPECIFIC CONFIGURATIONS ===========================================
+" Automatically break lines at 80 characters on TeX/LaTeX, Markdown, and text
+" files
+" Enable spell check on TeX/LaTeX, Markdown, and text files
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal tw=80
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal linebreak breakindent
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst setlocal spell spelllang=en_us
+autocmd BufNewFile,BufRead *.tex,*.md,*.txt,*.rst highlight Over100Length none
+au BufRead,BufNewFile *.sbt set filetype=scala
+
 
 "Easy motion
-lua require'hop'.setup { keys = 'abcdefghijklmnopqrst', term_seq_bias = 0.5 }
+lua require'hop'.setup { keys = 'abcdefghijklmnopqrst' }
+lua require'gitsigns'.setup {}
 
 
-" <Leader>f{char} to move to {char}
 " Let's replace some of the default bindings
 map f <cmd>HopFind<CR>
 map F <cmd>HopFindBefore<CR>
 map t <cmd>HopFindTo<CR>
 map T <cmd>HopFindToBefore<CR>
-" nmap <Space> c :Commands<CR>
+
 " Let's replace EVEN MORE bindings
 noremap C J
-map K :<CR>
-map k :<CR>
 
 map j <cmd>HopLineDown<CR>
 map J <cmd>HopLineUp<CR>
@@ -278,6 +271,7 @@ map W <cmd>HopWordBefore<CR>
 map e <cmd>HopWordEndAfter<CR>
 map E <cmd>HopWordEndBefore<CR>
 map s <cmd>HopChar1<CR>
+
 au BufRead,BufNewFile *.myui setfiletype myui
 set foldcolumn=2
 
