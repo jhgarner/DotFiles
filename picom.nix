@@ -1,6 +1,7 @@
-{lib, ...}:
+{pkgs, ...}:
 
 { config = {
+  systemd.user.services.picom.wantedBy = pkgs.lib.mkForce [];
   services.picom.enable = true;
   services.picom.backend = "glx";
   services.picom.fade = true;
@@ -42,8 +43,8 @@
         src = self.fetchFromGitHub {
           owner  = "yshui";
           repo   = "picom";
-          rev    = "248bffede73e520a4929dd7751667d29d4169d59";
-          sha256 = "0agg1jk40dwxph1dixdlb48n8iy5vffcpkkirkyrkfwnvaxsw6zj";
+          rev    = "7ba87598c177092a775d5e8e4393cb68518edaac";
+          sha256 = "0za3ywdn27dzp7140cpg1imbqpbflpzgarr76xaqmijz97rv1909";
           fetchSubmodules = true;
         };
       });

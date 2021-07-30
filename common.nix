@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./picom.nix
       ./icomoon.nix
+      # ./goneovim.nix
       # ./xest.nix
       ./directoryMover.nix
       ./deadd-notification-center.nix
@@ -19,11 +20,12 @@
       "https://cache.nixos.org"
       "https://cache.dhall-lang.org"
       "https://dhall.cachix.org"
+      "https://hydra.iohk.io"
     ];
-
     binaryCachePublicKeys = [
       "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
       "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
     extraOptions = ''
       keep-outputs = true
@@ -38,11 +40,24 @@
         src = self.fetchFromGitHub {
           owner = "neovim";
           repo = "neovim";
-          rev = "a129887c00a2d5e49fc551ba0bbffe88cefb56c0";
-          sha256 = "0ixlbpmc5kmbwbj1aj41ip5l122dzcmq1rzxfrxy9vkmy4madqpz";
+          rev = "v0.5.0";
+          sha256 = "0lgbf90sbachdag1zm9pmnlbn35964l3khs27qy4462qzpqyi9fi";
         };
         buildInputs = old.buildInputs ++ [self.tree-sitter];
       });
+      cascadia-code = pkgs.fetchzip {
+        postFetch = ''
+          mkdir -p $out/share/fonts/
+          unzip -j $downloadedFile \*.otf -d $out/share/fonts/opentype
+          unzip -j $downloadedFile \*.ttf -d $out/share/fonts/truetype
+        '';
+
+        name = "cascadia-code-2102.25";
+
+        url = "https://github.com/microsoft/cascadia-code/releases/download/v2102.25/CascadiaCode-2102.25.zip";
+
+        sha256 = "14qhawcf1jmv68zdfbi2zfqdw4cf8fpk7plxzphmkqsp7hlw9pzx";
+      };
     })
   ];
 
@@ -67,7 +82,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo mesa-demos lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute pamixer alsaUtils pulseaudio kmail
     ];
 
   environment.pathsToLink = [
@@ -83,7 +98,14 @@
   networking.firewall.enable = false;
 
   # Enable sound.
-  sound.enable = true;
+  security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   jack.enable = true;
+  # };
   hardware.pulseaudio.enable = true;
 
   # Enable the X11 windowing system.
@@ -152,8 +174,8 @@
   programs.zsh.syntaxHighlighting.enable = true;
 
   location.provider = "manual";
-  location.latitude = 50;
-  location.longitude = -110;
+  location.latitude = 50.0;
+  location.longitude = -110.0;
   services.redshift.enable = true;
   services.redshift.executable = "/bin/redshift-gtk";
 
