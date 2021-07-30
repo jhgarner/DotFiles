@@ -15,9 +15,13 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim', {'branch': 'main'}
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
+Plug 'jhgarner/nvim-lspinstall', {'branch': 'main'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+
 
 Plug 'derekwyatt/vim-scala'
-Plug 'xuhdev/vim-latex-live-preview'
+" Plug 'xuhdev/vim-latex-live-preview'
 Plug 'rhysd/vim-grammarous'
 
 
@@ -29,6 +33,7 @@ Plug 'tpope/vim-sleuth' " Pick the right tab/spacing automatically
 Plug 'folke/which-key.nvim', {'branch': 'main'}
 Plug 'monsonjeremy/onedark.nvim'
 Plug 'datwaft/bubbly.nvim'
+Plug 'hrsh7th/vim-vsnip'
 
 "Movement plugins
 " Plug 'phaazon/hop.nvim', {'dir': '~/code/lua/hop.nvim'} " , {'dir': '~/sources/vim-easymotion/'} Replace ALL the keybindings
@@ -44,8 +49,25 @@ let mapleader=" "
 " ======= LSP stuff =======
 lua require'lspconfig'.hls.setup{}
 lua require'lspconfig'.pyright.setup{}
+lua require'lspconfig'.dartls.setup{}
+" lua require'lspconfig'.rnix.setup{}
 
 lua require 'lspsaga'.init_lsp_saga()
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      -- ["foo.bar"] = "Identifier",
+    },
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF
 
 set updatetime=300
 set shortmess+=c
@@ -65,6 +87,17 @@ nnoremap <silent> <leader>gd <cmd>lua require'lspsaga.provider'.preview_definiti
 nnoremap <silent><leader>d <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
 nnoremap <silent> <leader>ne <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> <leader>pe <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+nnoremap <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
+
+
+lua << EOF
+require'lspinstall'.setup()
+
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{}
+end
+EOF
 
 " nvim-compe has a lot of config options (all copy and pasted from github)
 let g:compe = {}
@@ -187,8 +220,8 @@ EOF
 "Qol changes
 set background=dark
 filetype plugin indent on
-set relativenumber 
-set number  
+" set relativenumber 
+" set number  
 set hidden " don't close when switching buffers
 set tabstop=2     " a tab is two spaces
 set copyindent    " copy the previous indentation on autoindenting
@@ -227,12 +260,32 @@ nnoremap <Leader>of <cmd>lua require'telescope.builtin'.find_files{}<CR>
 nnoremap <Leader>og <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 nnoremap <Leader>/ <cmd>lua require'telescope.builtin'.live_grep{grep_open_files = true}<CR>
 nnoremap <Leader>nf <cmd>lua require'telescope.builtin'.file_browser{}<CR>
-nnoremap <Leader>ob <cmd>lua require'telescope.builtin'.buffers{}<CR>
+nnoremap <Leader>ob <cmd>lua require'telescope.builtin'.buffers{sort_lastused = true, theme = require'telescope.themes'.get_dropdown, previewer = false, ignore_current_buffer = true}<CR>
 nnoremap <Leader>oc <cmd>lua require'telescope.builtin'.commands{}<CR>
 nnoremap <Leader>oht <cmd>lua require'telescope.builtin'.help_tags{}<CR>
 nnoremap <Leader>ohm <cmd>lua require'telescope.builtin'.man_pages{}<CR>
 nnoremap <Leader>om <cmd>lua require'telescope.builtin'.marks{}<CR>
 nnoremap <Leader>s <cmd>lua require'telescope.builtin'.spell_suggest{}<CR>
+
+lua << EOF
+require("telescope").setup {
+  defaults = {
+    file_sorter = require("telescope.sorters").get_fzy_sorter,
+    mappings = {
+      i = {
+        ["<Esc>"] = require("telescope.actions").close
+      }
+    }
+  },
+  pickers = {
+    buffers = {
+      -- sort_lastused = true,
+      theme = "dropdown",
+      -- previewer = false
+    }
+  }
+}
+EOF
 
 
 " pdflatex configuration
