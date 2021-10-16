@@ -18,13 +18,9 @@
   nix = {
     binaryCaches = [
       "https://cache.nixos.org"
-      "https://cache.dhall-lang.org"
-      "https://dhall.cachix.org"
       "https://hydra.iohk.io"
     ];
     binaryCachePublicKeys = [
-      "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
-      "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
     extraOptions = ''
@@ -76,13 +72,13 @@
   hardware.opengl.driSupport32Bit = true;
 
   # Set your time zone.
-  time.timeZone = "America/Denver";
+  time.timeZone = "America/Los_Angeles";
 
   # A whole bunch of programs to install
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute pamixer alsaUtils pulseaudio kmail
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute pamixer alsaUtils pulseaudio kmail android-studio bat fd
     ];
 
   environment.pathsToLink = [
@@ -178,8 +174,6 @@
   location.longitude = -110.0;
   services.redshift.enable = true;
   services.redshift.executable = "/bin/redshift-gtk";
-
-  boot.plymouth.enable = true;
 
   programs.ssh.startAgent = true;
 

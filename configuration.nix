@@ -3,6 +3,7 @@
 {
   imports =
     [ 
+      ./cachix.nix
       ./common.nix
       # ./hardware-desktop.nix
       ./hardware-laptop.nix
