@@ -12,7 +12,7 @@
       # ./goneovim.nix
       # ./xest.nix
       ./directoryMover.nix
-      ./deadd-notification-center.nix
+      # ./deadd-notification-center.nix
     ];
 
   nix = {
@@ -35,16 +35,16 @@
 
   nixpkgs.overlays = [
     (self: super: {
-      neovim = super.neovim-unwrapped.overrideAttrs (old: {
-        version = "0.5.0";
-        src = self.fetchFromGitHub {
-          owner = "neovim";
-          repo = "neovim";
-          rev = "v0.5.0";
-          sha256 = "0lgbf90sbachdag1zm9pmnlbn35964l3khs27qy4462qzpqyi9fi";
-        };
-        buildInputs = old.buildInputs ++ [self.tree-sitter];
-      });
+      # neovim = super.neovim-unwrapped.overrideAttrs (old: {
+      #   version = "0.5.0";
+      #   src = self.fetchFromGitHub {
+      #     owner = "neovim";
+      #     repo = "neovim";
+      #     rev = "v0.5.0";
+      #     sha256 = "0lgbf90sbachdag1zm9pmnlbn35964l3khs27qy4462qzpqyi9fi";
+      #   };
+      #   buildInputs = old.buildInputs ++ [self.tree-sitter];
+      # });
       cascadia-code = pkgs.fetchzip {
         postFetch = ''
           mkdir -p $out/share/fonts/
@@ -82,7 +82,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;
-    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol gnome3.adwaita-icon-theme hicolor-icon-theme ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute pamixer alsaUtils pulseaudio kmail
+    [ wget vim mkpasswd neovim kitty rofi dunst google-chrome nox git git-secret feh zathura mpv netcat-gnu arandr fzf polybarFull nodejs-12_x python38 spotify discord steam pavucontrol ripgrep texlive.combined.scheme-full wine-staging networkmanagerapplet firefox texlab zoom-us nix-index libnotify wmctrl xorg.xprop xorg.xwininfo atool zip unzip tmux qpdf wireshark libreoffice-fresh gnumake brightnessctl cntr emacs yabar xtitle inkscape direnv xlibs.xev cachix aspell godot aspellDicts.en vscode gimp wesnoth htop lxappearance breeze-gtk breeze-qt5 mumble xdotool gnome3.gnome-boxes obs-studio screenkey p7zip desmume inotify-tools citra dolphinEmu mgba libsecret gptfdisk pinentry htop bind iw kdenlive ffmpeg maim neo-cowsay patchelf lynx nix-direnv pciutils starship nixpkgs-fmt aseprite write_stylus xournalpp glxinfo lutris vulkan-tools gparted rnix-lsp networkmanager_dmenu blender traceroute pamixer alsaUtils pulseaudio kmail android-studio gnome3.gnome-tweaks
     ];
 
   environment.pathsToLink = [
@@ -112,14 +112,14 @@
   services.xserver.enable = true;
   services.xserver.layout = "us";
   services.xserver.xkbVariant = "3l";
-  services.xserver.windowManager.i3.enable = true;
+  # services.xserver.windowManager.i3.enable = true;
 
   # Add GDM and Gnome3 because I don't trust Xest...
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.displayManager.gdm.wayland = true;
-  # services.xserver.desktopManager.gnome3.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
   # I keep this around for easy testing
   services.xserver.windowManager.session = [{
     name  = "xest";
@@ -206,6 +206,8 @@
   virtualisation.docker.enable = true;
 
   services.xserver.digimend.enable = true;
+
+  programs.noisetorch.enable = true;
 
   # services.openvpn.servers = {
   #   minesVPN  = { config = '' config /root/client.ovpn ''; };
