@@ -38,5 +38,6 @@
     intelBusId = "PCI:0:02:0";
     nvidiaBusId = "PCI:01:00:0";
   };
+  hardware.nvidia.modesetting.enable = true;
   # hardware.bumblebee.enable = true;
 }

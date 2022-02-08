@@ -31,16 +31,6 @@
 
   nixpkgs.overlays = [
     (self: super: {
-      # neovim = super.neovim-unwrapped.overrideAttrs (old: {
-      #   version = "0.5.0";
-      #   src = self.fetchFromGitHub {
-      #     owner = "neovim";
-      #     repo = "neovim";
-      #     rev = "v0.5.0";
-      #     sha256 = "0lgbf90sbachdag1zm9pmnlbn35964l3khs27qy4462qzpqyi9fi";
-      #   };
-      #   buildInputs = old.buildInputs ++ [self.tree-sitter];
-      # });
       cascadia-code = pkgs.fetchzip {
         postFetch = ''
           mkdir -p $out/share/fonts/
@@ -62,12 +52,6 @@
 
 
   networking.networkmanager.enable = true;  # Enables wireless support via NetworkManager
-
-  networking.useDHCP = false;
-  networking.interfaces.enp8s0.useDHCP = true;
-
-  networking.networkmanager.dhcp = "internal";
-  networking.dhcpcd.enable = false;
 
   hardware.opengl.driSupport32Bit = true;
 
@@ -113,6 +97,7 @@
   # Add GDM and Gnome3 because I don't trust Xest...
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.displayManager.gdm.nvidiaWayland = true;
   services.xserver.desktopManager.gnome.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
   # services.xserver.displayManager.sddm.enable = true;
@@ -192,19 +177,19 @@
   services.directoryMover.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.podman = {
+    enable = true;
+
+    # Create a `docker` alias for podman, to use it as a drop-in replacement
+    dockerCompat = true;
+  };
 
   users.extraGroups.vboxusers.members = [ "jack" ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   services.xserver.digimend.enable = true;
-
-  programs.noisetorch.enable = true;
-
-  # services.openvpn.servers = {
-  #   minesVPN  = { config = '' config /root/client.ovpn ''; };
-  # };
 }
 
