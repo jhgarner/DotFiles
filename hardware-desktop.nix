@@ -12,7 +12,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  # boot.kernelPackages = pkgs.linuxPackages_5_10;
+  boot.kernelParams = ["memmap=50M\\$0x0003e5dd89e0"
+    "NVreg_TemporaryFilePath=/var/tmp"
+  ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e15c4cf0-27d0-45e7-bbf6-a95429e7894f";
