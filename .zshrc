@@ -81,6 +81,7 @@ alias -s xls=$OFFICE
 alias -s xlsx=$OFFICE
 
 alias repo-create='gh repo create "$(basename $(pwd))-priv" --private --source=. --remote=private'
+alias repo-clone='gh repo clone "jhgarner/$(basename $(pwd))-priv" . -- -o private'
 
 # Up arrow search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
