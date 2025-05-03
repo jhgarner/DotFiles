@@ -80,6 +80,8 @@ alias -s txt=$EDITOR
 alias -s xls=$OFFICE
 alias -s xlsx=$OFFICE
 
+alias repo-create='gh repo create "$(basename $(pwd))-priv" --private --source=. --remote=private'
+
 # Up arrow search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
