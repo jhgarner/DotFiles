@@ -1,0 +1,10 @@
+[app-name=wp-vol]
+layer=overlay
+history=0
+anchor=bottom-center
+group-by=app-name
+format=<b>%s</b>\n%b
+
+[app-name=NetworkManager\ Applet]
+history=0
+default-timeout=2000
