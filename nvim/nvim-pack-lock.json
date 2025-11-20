@@ -1,0 +1,83 @@
+{
+  "plugins": {
+    "auto-save.nvim": {
+      "rev": "37c82fd",
+      "src": "https://github.com/okuuva/auto-save.nvim"
+    },
+    "blink.cmp": {
+      "rev": "327fff9",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "1.0.0 - 2.0.0"
+    },
+    "conform.nvim": {
+      "rev": "cde4da5",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "crates.nvim": {
+      "rev": "ac9fa49",
+      "src": "https://github.com/saecki/crates.nvim"
+    },
+    "fidget.nvim": {
+      "rev": "e32b672",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
+    "gitsigns.nvim": {
+      "rev": "20ad441",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "haskell-tools.nvim": {
+      "rev": "b8f8a5d",
+      "src": "https://github.com/mrcjkb/haskell-tools.nvim"
+    },
+    "heirline.nvim": {
+      "rev": "fae936a",
+      "src": "https://github.com/rebelot/heirline.nvim"
+    },
+    "hop.nvim": {
+      "rev": "0fdde50",
+      "version": "'newer-merged-all'"
+    },
+    "mini.extra": [],
+    "mini.icons": [],
+    "mini.pairs": {
+      "rev": "b9aada8",
+      "src": "https://github.com/nvim-mini/mini.pairs"
+    },
+    "mini.pick": [],
+    "neo-tree.nvim": {
+      "version": "3.0.0 - 4.0.0"
+    },
+    "nui.nvim": [],
+    "nvim-autopairs": {
+      "rev": "7a2c97c",
+      "src": "https://github.com/windwp/nvim-autopairs"
+    },
+    "nvim-just-selector": {
+      "rev": "a4adec3",
+      "src": "https://github.com/jhgarner/nvim-just-selector"
+    },
+    "nvim-notify": {
+      "rev": "8701bec",
+      "src": "https://github.com/rcarriga/nvim-notify"
+    },
+    "nvim-treesitter": {
+      "rev": "645f42e8",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "nvim-web-devicons": [],
+    "plenary.nvim": [],
+    "render-markdown.nvim": {
+      "rev": "060c911",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "rustaceanvim": {
+      "rev": "be0d1d1",
+      "src": "https://github.com/mrcjkb/rustaceanvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "2642dbb",
+      "src": "https://github.com/folke/tokyonight.nvim"
+    }
+  }
+}

@@ -2,15 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, lib, ... }:
+{ inputs, pkgs, lib, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+  };
 
-  environment.pathsToLink = ["/include" "/lib"];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
+  environment.pathsToLink = [
+    "/include"
+    "/lib"
+  ];
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # environment.ldso = "${pkgs.clang.libc_bin}/bin/ld.so";
   # environment.ldso32 = "${pkgs.clang.libc_bin}/bin/ld.so";
@@ -22,6 +29,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
   hardware.graphics.enable32Bit = true;
+
+  # Enabel Android development
+  programs.adb.enable = true;
+
+  # Sharing stuff with my phone
+  programs.kdeconnect.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -41,148 +54,158 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs;
-  [
-      # Desktop
-      # gnome-tweaks
-      i3
-      rofi
-      dunst
-      polybarFull
-      networkmanagerapplet
-      wl-clipboard
-      lxappearance
-      pinentry
-      screenkey
-      networkmanager_dmenu
-      xclip
-      podman-compose
-      dmenu
-      i3status
-      barrier
-      mako
-      fuzzel
-      swaylock
-      waybar
-      xwayland-satellite
-      overskride
-      nautilus
-      # Gui
-      kitty
-      alacritty
-      neovide
-      firefox
-      google-chrome
-      feh
-      mpv
-      fzf
-      spotify
-      discord
-      pavucontrol
-      wine-staging
-      wireshark
-      libreoffice-fresh
-      emacs
-      inkscape
-      gimp
-      wesnoth
-      mumble
-      obs-studio
-      kdePackages.kdenlive
-      aseprite
-      gparted
-      vscode
-      ldtk
-      zathura
-      # Terminal
-      neovim
-      vim
-      wget
-      mkpasswd
-      starship
-      bc
-      git
-      git-secret
-      gh
-      clang.bintools
-      lazygit
-      file
-      just
-      watchexec
-      netcat-gnu
-      ripgrep
-      atool
-      zip
-      unzip
-      tmux
-      qpdf
-      gnumake
-      brightnessctl
-      aspell
-      aspellDicts.en
-      p7zip
-      htop
-      bind
-      ffmpeg
-      iw
-      gptfdisk
-      pciutils
-      patchelf
-      bat
-      fd
-      wally-cli
-      pandoc
-      ## Xorg stuff
-      wmctrl
-      xorg.xprop
-      xorg.xwininfo
-      xtitle
-      xorg.xev
-      xdotool
-      # Language
-      deno
-      nodejs
-      python3
-      rustup
-      nil
-      jq
-      # Libs
-      ncurses
-      zlib
-      gmp
-      texlive.combined.scheme-full
-      libnotify
-      libsecret
-      glibc.out
-      glibc.dev
-      libcxx.out
-      (runCommand "copied-gcc-lib" {} ''
-          mkdir -p $out/
-          cd $out
-          cp -r -L ${gcc.cc.out}/. ./
-          chmod -R +w .
-          rm -r ./bin/
-          cp -r -L ${gcc.cc.lib}/. ./
-          chmod -R +w .
-          mkdir -p ./include/c++
-          cp -r -L ${libcxx.dev}/include/c++/v1/. ./include/c++
-          chmod -R +w .
-      '')
-      (runCommand "copied-clang" {} ''
-          mkdir -p $out/
-          cd $out
-          cp -r -L ${clang.cc.dev}/* ./
-          chmod -R +w .
-          cp -r -L ${clang.cc.out}/* ./
-          chmod -R +w .
-          cp -r -L ${clang.cc.lib}/* ./
-          chmod -R +w .
-      '')
-    ];
+  environment.systemPackages = with pkgs; [
+    # Desktop
+    # gnome-tweaks
+    i3
+    rofi
+    dunst
+    polybarFull
+    networkmanagerapplet
+    wl-clipboard
+    lxappearance
+    pinentry-curses
+    screenkey
+    networkmanager_dmenu
+    xclip
+    podman-compose
+    dmenu
+    i3status
+    mako
+    fuzzel
+    swaylock
+    swayidle
+    swaybg
+    waybar
+    swww
+    xwayland-satellite
+    overskride
+    nautilus
+    (
+      pkgs.writeShellScriptBin "xremap-starter" ''
+        #!/usr/bin/env bash
+        /home/jack/.local/bin/handyGolem-exe >& /tmp/handyGolem.log;
+      ''
+    )
+    # Gui
+    kitty
+    ghostty
+    alacritty
+    neovide
+    firefox
+    google-chrome
+    feh
+    mpv
+    fzf
+    spotify
+    discord
+    pavucontrol
+    wine-staging
+    wireshark
+    libreoffice-fresh
+    emacs
+    inkscape
+    gimp
+    wesnoth
+    mumble
+    obs-studio
+    kdePackages.kdenlive
+    # aseprite # Enable in a day or two once things are fixed
+    gparted
+    vscode
+    ldtk
+    zathura
+    # Terminal
+    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    vim
+    wget
+    mkpasswd
+    starship
+    bc
+    git
+    git-secret
+    gh
+    clang.bintools
+    lazygit
+    file
+    just
+    watchexec
+    netcat-gnu
+    ripgrep
+    atool
+    zip
+    unzip
+    tmux
+    qpdf
+    gnumake
+    brightnessctl
+    aspell
+    aspellDicts.en
+    p7zip
+    htop
+    bind
+    ffmpeg
+    iw
+    gptfdisk
+    pciutils
+    patchelf
+    bat
+    fd
+    wally-cli
+    pandoc
+    ## Xorg stuff
+    wmctrl
+    xorg.xprop
+    xorg.xwininfo
+    xtitle
+    xorg.xev
+    xdotool
+    # Language
+    deno
+    nodejs
+    python3
+    rustup
+    nil
+    jq
+    nil
+    tree-sitter
+    gcc
+    # Libs
+    ncurses
+    zlib
+    gmp
+    texlive.combined.scheme-full
+    libnotify
+    libsecret
+    glibc.out
+    glibc.dev
+    libcxx.out
+    (runCommand "copied-gcc-lib" { } ''
+      mkdir -p $out/
+      cd $out
+      cp -r -L ${gcc.cc.out}/. ./
+      chmod -R +w .
+      rm -r ./bin/
+      cp -r -L ${gcc.cc.lib}/. ./
+      chmod -R +w .
+      mkdir -p ./include/c++
+      cp -r -L ${libcxx.dev}/include/c++/v1/. ./include/c++
+      chmod -R +w .
+    '')
+    (runCommand "copied-clang" { } ''
+      mkdir -p $out/
+      cd $out
+      cp -r -L ${clang.cc.dev}/* ./
+      chmod -R +w .
+      cp -r -L ${clang.cc.out}/* ./
+      chmod -R +w .
+      cp -r -L ${clang.cc.lib}/* ./
+      chmod -R +w .
+    '')
+  ];
 
   programs.steam.enable = true;
   security.rtkit.enable = true;
@@ -208,15 +231,14 @@
   # Disable the firewall altogether.
   networking.firewall.enable = false;
 
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.xkb.layout = "us";
   # services.xserver.xkbVariant = "3l";
   # services.xserver.windowManager.i3.enable = true;
 
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
   # programs.gnome-terminal.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
   programs.niri.enable = true;
@@ -235,17 +257,30 @@
     home = "/home/jack";
     hashedPassword = "$6$0ezGsg1cC$KoCnA3QoxZ0UzF2gAOca3m9Ura8Gnb389RJg5XWcqTdMI3t6sJUJrlSPyUOwuh2v401L2a5Ot5Pv4OfgaHcGE1";
     group = "jack";
-    extraGroups = [ "testing" "wheel" "networkmanager" "video" "adbusers" "docker" "wireshark" "plugdev" "input" "uinput" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "testing"
+      "wheel"
+      "networkmanager"
+      "video"
+      "adbusers"
+      "docker"
+      "wireshark"
+      "plugdev"
+      "input"
+      "uinput"
+    ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
-  users.groups = { jack = { }; };
+  users.groups = {
+    jack = { };
+  };
 
   services.xserver.desktopManager.wallpaper.mode = "scale";
 
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     liberation_ttf
     fira-code
     fira-code-symbols
@@ -262,7 +297,6 @@
     cascadia-code
   ];
   fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" ];
-
 
   # A whole bunch of random stuff
   # services.blueman.enable = true;
@@ -315,15 +349,15 @@
     zlib
     zstd
     clang.cc.lib
-    (runCommand "copied-gcc" {} ''
-        mkdir -p $out/
-        cd $out
-        cp -r -L ${gcc.cc.out}/. ./
-        chmod -R +w .
-        cp -r -L ${gcc.cc.lib}/. ./
-        chmod -R +w .
-        cp -r -L ${libcxx.dev}/include/c++/v1/. ./include/c++
-        chmod -R +w .
+    (runCommand "copied-gcc" { } ''
+      mkdir -p $out/
+      cd $out
+      cp -r -L ${gcc.cc.out}/. ./
+      chmod -R +w .
+      cp -r -L ${gcc.cc.lib}/. ./
+      chmod -R +w .
+      cp -r -L ${libcxx.dev}/include/c++/v1/. ./include/c++
+      chmod -R +w .
     '')
     clang.cc.out
     clang.libc
@@ -346,53 +380,4 @@
     xorg.libxcb
     xorg.xcbutilwm
   ];
-
-  # xremap
-  
-  systemd.user.services.xremap =
-    let
-      toggleWaybar = ["${pkgs.procps}/bin/pkill" "-SIGUSR1" "waybar"];
-      config = {
-        modmap = [
-          {
-            remap = {
-              LeftMeta.press.launch = toggleWaybar;
-              LeftMeta.release.launch = toggleWaybar;
-            };
-          }
-        ];
-        keymap = [];
-      };
-      start = "${pkgs.xremap}/bin/xremap ${(pkgs.formats.yaml {}).generate "xremapConfig.yml" config}";
-    in {
-      description = "xremap user service";
-      path = [ pkgs.xremap ];
-      wantedBy = [ "graphical-session.target" ];
-      serviceConfig = lib.mkMerge [
-        {
-          KeyringMode = "private";
-          SystemCallArchitectures = [ "native" ];
-          RestrictRealtime = true;
-          ProtectSystem = true;
-          SystemCallFilter = map (x: "~@${x}") [
-            "clock"
-            "debug"
-            "module"
-            "reboot"
-            "swap"
-            "cpu-emulation"
-            "obsolete"
-            # NOTE: These two make the spawned processes drop cores
-            # "privileged"
-            # "resources"
-          ];
-          LockPersonality = true;
-          UMask = "077";
-          RestrictAddressFamilies = "AF_UNIX";
-          ExecStart = start;
-        }
-      ];
-    };
-
-
 }

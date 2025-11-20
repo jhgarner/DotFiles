@@ -8,8 +8,8 @@ input {
         xkb {
             // You can set rules, model, layout, variant and options.
             // For more information, see xkeyboard-config(7).
-            layout "us"
-            variant "3l"
+            //layout "us"
+            //variant "3l"
 
             // For example:
             // layout "us,ru"
@@ -94,6 +94,10 @@ output "eDP-1" {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     // position x=1280 y=0
+}
+
+output "ViewSonic Corporation XG2401 SERIES 0x01010101" {
+    mode "1920x1080@143.855"
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -248,9 +252,61 @@ layout {
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
 spawn-at-startup "waybar"
+spawn-at-startup "swww-daemon" "-n" "overview"
+spawn-at-startup "swww-daemon" "-n" "desktop"
+spawn-at-startup "swww" "img" "-n" "overview" "/home/jack/Pictures/wallpaperOverview.jpg"
+spawn-at-startup "swww" "img" "-n" "desktop" "/home/jack/Pictures/wallpaper.jpg"
+spawn-at-startup "swayidle" "-w" "timeout" "601" "niri msg action power-off-monitors"
+spawn-at-startup "xremap-starter"
 spawn-at-startup "xwayland-satellite"
 environment {
     DISPLAY ":0"
+}
+
+// Block out mako notifications from screencasts.
+layer-rule {
+    match namespace="^notifications$"
+
+    block-out-from "screencast"
+}
+
+// Put swaybg inside the overview backdrop.
+layer-rule {
+    match namespace="overview"
+
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="waybar"
+
+    shadow {
+        on
+        // off
+        softness 40
+        spread 5
+        offset x=0 y=5
+        draw-behind-window true
+        color "#00000064"
+        // inactive-color "#00000064"
+    }
+
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="launcher"
+
+    shadow {
+        on
+        // off
+        softness 40
+        spread 5
+        offset x=0 y=5
+        draw-behind-window true
+        color "#00000064"
+        // inactive-color "#00000064"
+    }
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -299,19 +355,30 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="com.github.wwmm.easyeffects"
     open-floating true
+}
+
+
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Mozilla Firefox$"
+    default-column-width { proportion 1.00; }
 }
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
+    match app-id="discord"
 
-    block-out-from "screen-capture"
+    // block-out-from "screen-capture"
 
     // Use this instead if you want them visible on third-party screenshot tools.
-    // block-out-from "screencast"
+    block-out-from "screencast"
 }
 
 // Example: enable rounded corners for all windows.
@@ -321,10 +388,10 @@ window-rule {
     clip-to-geometry true
 }
 
-cursor {
-    xcursor-theme "capitaine-cursors"
-    xcursor-size 24
-}
+// cursor {
+//     xcursor-theme "capitaine-cursors"
+//     xcursor-size 12
+// }
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -359,6 +426,7 @@ binds {
     XF86MonBrightnessUp  allow-when-locked=true { spawn "~/code/shell/brightness-osd.sh" "10%+"; }
     XF86MonBrightnessDown  allow-when-locked=true { spawn "~/code/shell/brightness-osd.sh" "10%-"; }
     Mod+B { spawn "pkill" "-SIGUSR1" "waybar"; }
+    Mod+Shift+B { spawn "pkill" "-SIGUSR2" "waybar"; }
 
     Mod+Q { close-window; }
 
@@ -371,14 +439,14 @@ binds {
     Mod+K     { focus-window-up; }
     Mod+L     { focus-column-right; }
 
-    Mod+Ctrl+Left  { move-column-left; }
-    Mod+Ctrl+Down  { move-window-down; }
-    Mod+Ctrl+Up    { move-window-up; }
-    Mod+Ctrl+Right { move-column-right; }
-    Mod+Ctrl+H     { move-column-left; }
-    Mod+Ctrl+J     { move-window-down; }
-    Mod+Ctrl+K     { move-window-up; }
-    Mod+Ctrl+L     { move-column-right; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+J     { move-window-down; }
+    Mod+Shift+K     { move-window-up; }
+    Mod+Shift+L     { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
@@ -392,14 +460,14 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    Mod+Shift+Left  { focus-monitor-left; }
-    Mod+Shift+Down  { focus-monitor-down; }
-    Mod+Shift+Up    { focus-monitor-up; }
-    Mod+Shift+Right { focus-monitor-right; }
-    Mod+Shift+H     { focus-monitor-left; }
-    Mod+Shift+J     { focus-monitor-down; }
-    Mod+Shift+K     { focus-monitor-up; }
-    Mod+Shift+L     { focus-monitor-right; }
+    Mod+Ctrl+Left  { focus-monitor-left; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Ctrl+H     { focus-monitor-left; }
+    Mod+Ctrl+J     { focus-monitor-down; }
+    Mod+Ctrl+K     { focus-monitor-up; }
+    Mod+Ctrl+L     { focus-monitor-right; }
 
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
@@ -558,9 +626,9 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Mod+P { screenshot; }
+    Mod+Ctrl+P { screenshot-screen; }
+    Mod+Alt+P { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
